@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/styles.css" rel="stylesheet" type="text/css" />
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+        <video preload="auto" autoplay="true" loop="loop" muted="muted" id="bgvid">
+            <source src="resources/videos/home_page_video.mp4" type="video/mp4" />
+        </video>
+         <!-- Fixed navbar -->
+         <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">ACME</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="../navbar-static-top/">Login</a></li>
+              <li><a href="../navbar-fixed-top/">Create Account</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+         <div class="container col-md-8 col-md-offset-2">
+             <div class="jumbotron">
+                
+                    <h1 class="text-center">Login</h1>
+             
+        <h:form>
+            <h:panelGrid columns="3">
+
+                login: <h:inputText value="#{login.login}" required ="true"
+                                    binding="#{login.loginUI}"
+                                    requiredMessage="Your must enter login"
+                                    id="login"/>
+                <h:message for="login" style="color:red;margin:8px;"/>
+
+                password: <h:inputSecret value="#{login.password}" required ="true"
+                                         requiredMessage="Your must enter password"
+                                         validatorMessage="Login/Password incorrect"
+                                         validator="#{login.validate}"
+                                         id="password"/>
+                <h:message for="password" style="color:red;margin:8px;"/>
+
+            </h:panelGrid>
+            <h:panelGrid>
+                <h:commandButton value="Go" action="#{login.go}"/>
+            </h:panelGrid>
+        </h:form>
+
+<h:form>
+   <h3>New Customer</h3>
+   <h:commandButton action = "newCustomer" value = "New Customer" />
+</h:form>
+        
+<h:form>
+   <h3>Display Customer</h3>
+   <h:commandButton action = "displayCustomer" value = "Display Customer" />
+</h:form>
+                    
+             </div>
+         </div>
+
+
+
+
+
+
+    </h:body>
+</html>
+
