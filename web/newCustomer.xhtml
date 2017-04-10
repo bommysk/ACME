@@ -26,7 +26,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">ACME</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -51,11 +51,10 @@
     </nav>
          <div class="container col-md-8 col-md-offset-2">
              <div class="jumbotron">
-                <div class="text-center">
-                    <h1>New Customer</h1>
+                
+                    <h1 class="text-center">New Customer</h1>
              
                     <h:form>
-              <div class="form-group">
 
             <h:panelGrid columns="3">
                 Customer Id: <h:inputText value="#{customer.customerID}" required ="true"
@@ -89,11 +88,10 @@
             <h:panelGrid>
                 <h:commandButton value="Go" action="#{customer.createCustomer}"/>
             </h:panelGrid>
-              </div>
+              
         </h:form>
              </div>
              </div>
-         </div>
     </h:body>
 </html>
 
