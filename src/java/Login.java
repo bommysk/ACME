@@ -66,7 +66,7 @@ public class Login implements Serializable {
     }
 
     public String go() {
-      //  Util.invalidateUserSession();
+        Util.invalidateUserSession();
         return "success";
     }
 

@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:templates="http://xmlns.jcp.org/jsf/composite/ezcomp">
     <h:head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="css/styles.css" rel="stylesheet" type="text/css" />
@@ -12,68 +14,36 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </h:head>
     <h:body>
-        <video preload="auto" autoplay="true" loop="loop" muted="muted" id="bgvid">
-            <source src="resources/videos/background_video.mp4" type="video/mp4" />
-        </video>
-         <!-- Fixed navbar -->
-         <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">ACME</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="../navbar-static-top/">Login</a></li>
-              <li><a href="../navbar-fixed-top/">Create Account</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+        <templates:navigation />
+         
+        <div class="container">
+            
+            <div class="card card-inverse card-success text-center">
+                <div class="card-block">
+                    <h:form class="form-signin">
+                        <h2 class="form-signin-heading">Please sign in</h2>
+                        <label for="inputEmail" class="sr-only">Email address</label>
+                        <h:inputText id="inputEmail" value="#{login.login}" required ="true"
+                                                binding="#{login.loginUI}"
+                                                requiredMessage="Your must enter your email."
+                                                class="form-control"
+                                                a:placeholder="Email address" />
+                        <h:message for="Email address" style="color:red;margin:8px;"/>
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <h:inputSecret value="#{login.password}" required ="true"
+                                                     requiredMessage="Your must enter password"
+                                                     validatorMessage="Login/Password incorrect"
+                                                     validator="#{login.validate}"
+                                                     class="form-control"
+                                                     id="password"
+                                                     a:placeholder="Password" />
+                        <h:message for="password" style="color:red;margin:8px;"/>
+                        <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{login.go}"/>
+                    </h:form>
+                </div>
+            </div>  
 
-    <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	<div class="modal-dialog">
-            <div class="loginmodal-container">
-                <h1>Login to Your Account</h1><br />
-                    <form>
-                          <input type="text" name="user" placeholder="Username" />
-                          <input type="password" name="pass" placeholder="Password" />
-                          <input type="submit" name="login" class="login loginmodal-submit" value="Login" />
-                    </form>
-
-                    <div class="login-help">
-                          <a href="#">Register</a> - <a href="#">Forgot Password</a>
-                    </div>
-            </div>
-	</div>
-    </div>
-
-
-
+        </div> <!-- /container -->
     </h:body>
 </html>
 
