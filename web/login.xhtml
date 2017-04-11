@@ -13,7 +13,7 @@
     </h:head>
     <h:body>
         <video preload="auto" autoplay="true" loop="loop" muted="muted" id="bgvid">
-            <source src="resources/videos/home_page_video.mp4" type="video/mp4" />
+            <source src="resources/videos/background_video.mp4" type="video/mp4" />
         </video>
          <!-- Fixed navbar -->
          <nav class="navbar navbar-default navbar-fixed-top">
@@ -52,48 +52,25 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-         <div class="container col-md-8 col-md-offset-2">
-             <div class="jumbotron">
-                
-                    <h1 class="text-center">Login</h1>
-             
-        <h:form>
-            <h:panelGrid columns="3">
 
-                login: <h:inputText value="#{login.login}" required ="true"
-                                    binding="#{login.loginUI}"
-                                    requiredMessage="Your must enter login"
-                                    id="login"/>
-                <h:message for="login" style="color:red;margin:8px;"/>
+    <a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
 
-                password: <h:inputSecret value="#{login.password}" required ="true"
-                                         requiredMessage="Your must enter password"
-                                         validatorMessage="Login/Password incorrect"
-                                         validator="#{login.validate}"
-                                         id="password"/>
-                <h:message for="password" style="color:red;margin:8px;"/>
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	<div class="modal-dialog">
+            <div class="loginmodal-container">
+                <h1>Login to Your Account</h1><br />
+                    <form>
+                          <input type="text" name="user" placeholder="Username" />
+                          <input type="password" name="pass" placeholder="Password" />
+                          <input type="submit" name="login" class="login loginmodal-submit" value="Login" />
+                    </form>
 
-            </h:panelGrid>
-            <h:panelGrid>
-                <h:commandButton value="Go" action="#{login.go}"/>
-            </h:panelGrid>
-        </h:form>
-
-<h:form>
-   <h3>New Customer</h3>
-   <h:commandButton action = "newCustomer" value = "New Customer" />
-</h:form>
-        
-<h:form>
-   <h3>Display Customer</h3>
-   <h:commandButton action = "displayCustomer" value = "Display Customer" />
-</h:form>
-                    
-             </div>
-         </div>
-
-
-
+                    <div class="login-help">
+                          <a href="#">Register</a> - <a href="#">Forgot Password</a>
+                    </div>
+            </div>
+	</div>
+    </div>
 
 
 
