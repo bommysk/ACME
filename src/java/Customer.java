@@ -132,7 +132,7 @@ public class Customer implements Serializable {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
     
-        return login.getLogin();
+        return login.getCustomerLogin();
     }
 
     public Date getCreatedDate() {

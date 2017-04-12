@@ -31,10 +31,10 @@ import javax.xml.registry.infomodel.User;
 @ManagedBean
 public class Login implements Serializable {
 
-    private String login;
-    private String password;
+    private String customerLogin;
+    private String customerPassword;
     private UIInput loginUI;
-    private DBConnect dbConnect = new DBConnect();
+    private final DBConnect dbConnect = new DBConnect();
     
     public UIInput getLoginUI() {
         return loginUI;
@@ -44,23 +44,23 @@ public class Login implements Serializable {
         this.loginUI = loginUI;
     }
 
-    public String getLogin() {
-        return login;
+    public String getCustomerLogin() {
+        return customerLogin;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setCustomerLogin(String customerLogin) {
+        this.customerLogin = customerLogin;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCustomerPassword() {
+        return customerPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCustomerPassword(String customerPassword) {
+        this.customerPassword = customerPassword;
     }
     
-    public boolean check_login_password(String login, String password) throws SQLException {
+    public boolean checkLoginPassword(String login, String password) throws SQLException {
     
         Connection con = dbConnect.getConnection();
         String loginDB, passwordDB;
@@ -94,17 +94,17 @@ public class Login implements Serializable {
 
     public void validate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
-        login = loginUI.getLocalValue().toString();
-        password = value.toString();
+        customerLogin = loginUI.getLocalValue().toString();
+        customerPassword = value.toString();
 
-        if (! check_login_password(login, password)) {
+        if (! checkLoginPassword(customerLogin, customerPassword)) {
             FacesMessage errorMessage = new FacesMessage("Wrong login/password");
             throw new ValidatorException(errorMessage);
         }
     }
 
     public String go() {
-        Util.validateUserSession(login);
+        Util.validateUserSession(customerLogin);
         
         return "success";
     }
