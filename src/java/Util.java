@@ -2,7 +2,6 @@
 import java.io.Serializable;
 
 import java.util.*;
-import java.text.SimpleDateFormat;
 import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
@@ -10,6 +9,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Named(value = "util")
@@ -22,6 +22,12 @@ public class Util implements Serializable {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
     }
+    
+    public static String validateUserSession(String login) {
+        HttpSession session = getSession();
+        session.setAttribute("login", login);
+        return "success";
+    }
 
     public void validateDate(FacesContext context, UIComponent component, Object value)
             throws Exception {
@@ -32,5 +38,29 @@ public class Util implements Serializable {
             FacesMessage errorMessage = new FacesMessage("Input is not a valid date");
             throw new ValidatorException(errorMessage);
         }
+    }
+    
+    public static HttpSession getSession() {
+        return (HttpSession) FacesContext.getCurrentInstance()
+                            .getExternalContext().getSession(false);
+    }
+
+    public static HttpServletRequest getRequest() {
+            return (HttpServletRequest) FacesContext.getCurrentInstance()
+                            .getExternalContext().getRequest();
+    }
+
+    public static String getUserName() {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                            .getExternalContext().getSession(false);
+            return session.getAttribute("login").toString();
+    }
+
+    public static String getUserId() {
+            HttpSession session = getSession();
+            if (session != null)
+                return (String) session.getAttribute("userid");
+            else
+                return null;
     }
 }

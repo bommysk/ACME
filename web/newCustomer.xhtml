@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
     <title>New Customer</title>
     <h:head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -12,86 +14,119 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </h:head>
     <h:body>
+        <templates:navigation/>
         
-        <video preload="auto" autoplay="true" loop="loop" muted="muted" id="bgvid">
-            <source src="resources/videos/background_video.mp4" type="video/mp4" />
-        </video>
-         <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">ACME</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-         <div class="container col-md-8 col-md-offset-2">
-             <div class="jumbotron">
+        <div class="container col-md-6 col-md-offset-3">
+          
                 
-                    <h1 class="text-center">New Customer</h1>
-             
+            <h1 class="text-center">New Account</h1>
+
+            <div class="panel panel-success">
+                
+                <div class="panel-heading"><strong>Welcome</strong></div>
+
+                <div class="panel-body">
+
                     <h:form>
+                        
+                        <div class="form-group">
+                            <label>Login:</label> <h:inputText value="#{customer.customerLogin}" required="true"
+                                               requiredMessage="Your must enter your login name."
+                                               id="login"
+                                               class="form-control"
+                                               a:placeholder="Login" />
+                            <h:message for="customerLogin" style="color:red;margin:8px;"/>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label>Password:</label><h:inputSecret value="#{customer.customerPassword}" required="true"
+                                                         requiredMessage="Your must enter password"
+                                                         class="form-control"
+                                                         id="password"
+                                                         a:placeholder="Password" />
+                            <h:message for="customerPassword" style="color:red;margin:8px;"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>First Name:</label> <h:inputText value="#{customer.firstName}" required="true"
+                                               requiredMessage="Your must enter your first name."
+                                               id="firstName"
+                                               class="form-control"
+                                               a:placeholder="First Name" />
+                            <h:message for="firstName" style="color:red;margin:8px;"/>
+                        </div>
 
-            <h:panelGrid columns="3">
-                Customer Id: <h:inputText value="#{customer.customerID}" required ="true"
-                                      requiredMessage="Your must enter Customer ID"
-                                      validator="#{customer.validateCustomerID}"
-                                      converterMessage="Customer ID must be an integer"
-                                      id="userId"/>
-                <h:message for="userId" style="color:red;margin:8px;"/>
+                        <div class="form-group">
+                            <label>Last Name:</label> <h:inputText value="#{customer.lastName}" required="true"
+                                               requiredMessage="Your must enter your last name."
+                                               id="lastName"
+                                               class="form-control"
+                                               a:placeholder="Last Name" />
+                            <h:message for="lastName" style="color:red;margin:8px;"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email:</label> <h:inputText value="#{customer.email}" required="true"
+                                               requiredMessage="Email Required"
+                                               id="email"
+                                               class="form-control"
+                                               a:placeholder="Email">
+                            <f:validateRegex
+                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </h:inputText>
+                            <h:message for="email" style="color:red; margin:8px;"/>
+                        </div>
 
-                Name: <h:inputText value="#{customer.name}" required ="true"
-                                   requiredMessage="Your must enter Customer Name"
-                                   id="userName"/>
-                <h:message for="userName" style="color:red;margin:8px;"/>
+                        <div class="form-group">
+                            <label>Postal Address:</label> <h:inputText value="#{customer.postalAddress}" required="true"
+                                                                requiredMessage="Your must enter your postal address."
+                                                                validatorMessage="The postal address must be at least five characters."
+                                                                id="userAddress"
+                                                                class="form-control"
+                                                                a:placeholder="Postal Address">
+                                                    <f:validateLength minimum="5"/>
+                                                    </h:inputText>
+                            <h:message for="userAddress" style="color:red;margin:8px;"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Credit Card Number:</label> <h:inputText value="#{customer.creditCardNumber}" required="true"
+                                               requiredMessage="Credit Card Number Required."
+                                               id="creditCardNumber"
+                                               class="form-control"
+                                               a:placeholder="Credit Card Number">
+                            </h:inputText>
+                            <h:message for="creditCardNumber" style="color:red; margin:8px;"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Expiration Date:</label> <h:inputText value="#{customer.expirationDate}" required="true"
+                                               requiredMessage="Expiration Date Required."
+                                               converterMessage="Illegal date (should be mm/dd/yyyy)"
+                                               id="expirationDate"
+                                               class="form-control"
+                                               a:placeholder="Expiration Date">
+                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                            </h:inputText>
+                            <h:message for="expirationDate" style="color:red; margin:8px;"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>CVV:</label>  <h:inputText value="#{customer.cvvNumber}" required="true"
+                                                                id="cvvNumber"
+                                                                class="form-control" 
+                                                                a:placeholder="CVV" />
+                            <h:message for="cvvNumber" style="color:red;margin:8px;"/>
+                        </div>
 
-                Address: <h:inputText value="#{customer.address}" required ="true"
-                                      requiredMessage="Your must enter Customer Address"
-                                      validatorMessage="Address must be at least five characters"
-                                      id="userAddress">
-                    <f:validateLength minimum="5"/>
-                </h:inputText>
-                <h:message for="userAddress" style="color:red;margin:8px;"/>
-
-                Date: <h:inputText value="#{customer.created_date}" required ="true"
-                                   requiredMessage="Date Required"
-                                   converterMessage="Illegal date (should be mm/dd/yyyy)"
-                                   id="userDate">
-                <f:convertDateTime pattern="MM/dd/yyyy"/>
-                </h:inputText>
-                <h:message for="userDate" style="color:red;margin:8px;"/>
-            </h:panelGrid>
-            <h:panelGrid>
-                <h:commandButton value="Go" action="#{customer.createCustomer}"/>
-            </h:panelGrid>
-              
-        </h:form>
-             </div>
-             </div>
+                        <h:commandButton value="Register" class="btn btn-primary" action="#{customer.createCustomer}"/>
+    
+                    </h:form>
+                    
+                </div>
+            </div>
+        </div>
     </h:body>
 </html>
 
