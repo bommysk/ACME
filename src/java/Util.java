@@ -23,9 +23,9 @@ public class Util implements Serializable {
         session.invalidate();
     }
     
-    public static String validateUserSession(String login) {
+    public static String validateUserSession(String customerLogin) {
         HttpSession session = getSession();
-        session.setAttribute("login", login);
+        session.setAttribute("customerLogin", customerLogin);
         return "success";
     }
 
@@ -53,7 +53,7 @@ public class Util implements Serializable {
     public static String getUserName() {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                             .getExternalContext().getSession(false);
-            return session.getAttribute("login").toString();
+            return session.getAttribute("customerLogin").toString();
     }
 
     public static String getUserId() {

@@ -113,6 +113,6 @@ public class Login implements Serializable {
     public String logout() {
         Util.invalidateUserSession();
 
-        return "login";
+        return "logout";
     }
 }
