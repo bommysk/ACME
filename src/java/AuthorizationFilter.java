@@ -36,7 +36,7 @@ public class AuthorizationFilter implements Filter {
         HttpSession session = request.getSession(false);
         String loginURL = request.getContextPath() + "/login.xhtml";
 
-        boolean loggedIn = (session != null) && (session.getAttribute("user") != null);
+        boolean loggedIn = (session != null) && (session.getAttribute("customerLogin") != null);
         boolean loginRequest = request.getRequestURI().equals(loginURL);
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
         boolean ajaxRequest = "partial/ajax".equals(request.getHeader("Faces-Request"));
@@ -68,6 +68,5 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void destroy() {
         // Nothing to do here!
-    }   
-     
+    }    
 }

@@ -18,8 +18,7 @@ import javax.servlet.http.HttpSession;
 public class Util implements Serializable {
 
     public static void invalidateUserSession() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        HttpSession session = getSession();
         session.invalidate();
     }
     
