@@ -99,6 +99,7 @@
         <navigation-case>
             <from-outcome>success</from-outcome>
             <to-view-id>/secured/customerDashboard.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>logout</from-outcome>
@@ -127,6 +128,48 @@
         <navigation-case>
             <from-outcome>newCustomer</from-outcome>
             <to-view-id>/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /secured/about.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newCustomer</from-outcome>
+            <to-view-id>/secured/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /secured/contact.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newCustomer</from-outcome>
+            <to-view-id>/secured/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /secured/index.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newCustomer</from-outcome>
+            <to-view-id>/secured/newCustomer.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
