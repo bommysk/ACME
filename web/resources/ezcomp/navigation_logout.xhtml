@@ -27,7 +27,7 @@
                     <ul class="nav navbar-nav">
                         <li><h:link value="Home" outcome="/index" /></li>
                         <li><h:link value="About" outcome="/about" /></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><h:link value="Contact" outcome="contact" /></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reserve Now <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -40,7 +40,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><h:link value="Logout" outcome="logout" /></li>
 
-                        <li><h:link value="Create Account" outcome="newCustomer" /></li>
+                        <li><h:link value="My Account" outcome="/secured/customerDashboard" /></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

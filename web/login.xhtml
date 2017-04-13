@@ -20,37 +20,39 @@
             <f:viewAction action="#{login.logout}" />
         </f:metadata>
          
-        <div class="container col-md-6 col-md-offset-3">
+        <div class="container">
           
             <h1 class="text-center">Login</h1>
+            
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-success">
 
-            <div class="panel panel-success">
-                
-                <div class="panel-heading"><strong>Welcome</strong></div>
+                    <div class="panel-heading"><strong>Welcome</strong></div>
 
-                <div class="panel-body">
-                    <h:form class="form-signin">
-                        <label for="inputEmail" class="sr-only">Email address</label>
-                        <h:inputText id="inputEmail" value="#{login.customerLogin}" required ="true"
-                                                binding="#{login.loginUI}"
-                                                requiredMessage="Your must enter your email."
-                                                class="form-control"
-                                                a:placeholder="Email address" />
-                        <h:message for="Email address" style="color:red;margin:8px;"/>
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <h:inputSecret value="#{login.customerPassword}" required ="true"
-                                                     requiredMessage="Your must enter password"
-                                                     validatorMessage="Login/Password incorrect"
-                                                     validator="#{login.validate}"
-                                                     class="form-control"
-                                                     id="password"
-                                                     a:placeholder="Password" />
-                        <h:message for="password" style="color:red;margin:8px;"/>
-                        
-                        <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{login.go}"/>
-                    </h:form>
+                    <div class="panel-body">
+                        <h:form class="form-signin">
+                            <label for="inputEmail" class="sr-only">Email address</label>
+                            <h:inputText id="inputEmail" value="#{login.customerLogin}" required ="true"
+                                                    binding="#{login.loginUI}"
+                                                    requiredMessage="Your must enter your email."
+                                                    class="form-control"
+                                                    a:placeholder="Email address" />
+                            <h:message for="Email address" style="color:red;margin:8px;"/>
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <h:inputSecret value="#{login.customerPassword}" required ="true"
+                                                         requiredMessage="Your must enter password"
+                                                         validatorMessage="Login/Password incorrect"
+                                                         validator="#{login.validate}"
+                                                         class="form-control"
+                                                         id="password"
+                                                         a:placeholder="Password" />
+                            <h:message for="password" style="color:red;margin:8px;"/>
+
+                            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{login.go}"/>
+                        </h:form>
+                    </div>
                 </div>
-            </div>  
+            </div>
         </div> <!-- /container -->
     </h:body>
 </html>
