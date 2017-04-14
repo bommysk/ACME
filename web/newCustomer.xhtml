@@ -30,20 +30,22 @@
                         
                         <div class="form-group">
                             <label>Login:</label> <h:inputText value="#{customer.customerLogin}" required="true"
-                                               requiredMessage="Your must enter your login name."
-                                               id="login"
-                                               class="form-control"
-                                               a:placeholder="Login" />
+                                                        requiredMessage="Your must enter your login name."
+                                                        validatorMessage="This login already exists, please pick another one."
+                                                        validator="#{customer.validateLogin}"
+                                                        id="login"
+                                                        class="form-control"
+                                                        a:placeholder="Login" />
                             <h:message for="customerLogin" style="color:red;margin:8px;"/>
                         </div>
                         
                         
                         <div class="form-group">
                             <label>Password:</label><h:inputSecret value="#{customer.customerPassword}" required="true"
-                                                         requiredMessage="Your must enter password"
-                                                         class="form-control"
-                                                         id="password"
-                                                         a:placeholder="Password" />
+                                                        requiredMessage="Your must enter password"
+                                                        class="form-control"
+                                                        id="password"
+                                                        a:placeholder="Password" />
                             <h:message for="customerPassword" style="color:red;margin:8px;"/>
                         </div>
                         

@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
@@ -47,7 +45,7 @@ public class Customer implements Serializable {
     private Date expirationDate;
     private Integer cvvNumber;
     private Date createdDate = new Date();
-
+    
     public DBConnect getDbConnect() {
         return dbConnect;
     }
@@ -175,5 +173,35 @@ public class Customer implements Serializable {
         System.out.println(Util.getUserName());
         
         return "index";
+    }
+    
+    public void validateLogin(FacesContext context, UIComponent component, Object value)
+            throws ValidatorException, SQLException {
+        
+        Connection con = dbConnect.getConnection();
+        int count;
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+
+        PreparedStatement preparedStatement = con.prepareStatement("Select count(*) as count from customer where login = ?");
+        preparedStatement.setString(1, customerLogin);
+        
+        ResultSet result = preparedStatement.executeQuery();
+
+        result.next();
+        
+        count = result.getInt("count");
+        
+        if (count == 0) {
+            FacesMessage errorMessage = new FacesMessage("This login already exists, please pick another one.");
+            throw new ValidatorException(errorMessage);
+        }
+        
+        result.close();
+        con.close();
     }
 }
