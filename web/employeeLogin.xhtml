@@ -16,39 +16,41 @@
     <h:body>
         <templates:navigation />
         
+        <!-- Logs out anyone who tries to access the login page. -->
         <f:metadata>
-            <f:viewAction action="#{login.logout}" />
+            <f:viewAction action="#{employeelogin.logout}" />
         </f:metadata>
          
         <div class="container">
           
-            <h1 class="text-center">Login</h1>
+            <h1 class="text-center">Employee Login</h1>
             
             <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-success">
+
+                <div class="panel panel-primary">
 
                     <div class="panel-heading"><strong>Welcome</strong></div>
 
                     <div class="panel-body">
                         <h:form class="form-signin">
                             <label for="username" class="sr-only">Username</label>
-                            <h:inputText id="username" value="#{login.customerLogin}" required ="true"
-                                                    binding="#{login.loginUI}"
-                                                    requiredMessage="Your must enter your email."
+                            <h:inputText id="username" value="#{employeelogin.employeeLogin}" required="true"
+                                                    binding="#{employeelogin.loginUI}"
+                                                    requiredMessage="Your must enter your username."
                                                     class="form-control"
                                                     a:placeholder="Username" />
                             <h:message for="username" style="color:red;margin:8px;"/>
                             <label for="password" class="sr-only">Password</label>
-                            <h:inputSecret value="#{login.customerPassword}" required ="true"
+                            <h:inputSecret value="#{employeelogin.employeePassword}" required="true"
                                                          requiredMessage="Your must enter password"
                                                          validatorMessage="Login/Password incorrect"
-                                                         validator="#{login.validate}"
+                                                         validator="#{employeelogin.validate}"
                                                          class="form-control"
                                                          id="password"
                                                          a:placeholder="Password" />
                             <h:message for="password" style="color:red;margin:8px;"/>
 
-                            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{login.go}" />
+                            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{employeelogin.go}" />
                         </h:form>
                     </div>
                 </div>

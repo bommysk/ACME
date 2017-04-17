@@ -1,22 +1,3 @@
-
-import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.annotation.ManagedBean;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
-import javax.inject.Named;
-import javax.xml.registry.infomodel.User;
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,15 +7,56 @@ import javax.xml.registry.infomodel.User;
  *
  * @author skahal
  */
-@Named(value = "login")
+
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.annotation.ManagedBean;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
+import javax.inject.Named;
+
+@Named(value = "employeelogin")
 @SessionScoped
 @ManagedBean
-public class Login implements Serializable {
+public class EmployeeLogin implements Serializable {
 
-    private String customerLogin;
-    private String customerPassword;
+    private Boolean isAdmin;
+    private String employeeLogin;
+    private String employeePassword;
     private UIInput loginUI;
     private final DBConnect dbConnect = new DBConnect();
+    
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+    
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+    
+    public String getEmployeeLogin() {
+        return employeeLogin;
+    }
+
+    public void setEmployeeLogin(String employeeLogin) {
+        this.employeeLogin = employeeLogin;
+    }
+
+    public String getEmployeePassword() {
+        return employeePassword;
+    }
+
+    public void setEmployeePassword(String employeePassword) {
+        this.employeePassword = employeePassword;
+    }
     
     public UIInput getLoginUI() {
         return loginUI;
@@ -43,24 +65,12 @@ public class Login implements Serializable {
     public void setLoginUI(UIInput loginUI) {
         this.loginUI = loginUI;
     }
-
-    public String getCustomerLogin() {
-        return customerLogin;
-    }
-
-    public void setCustomerLogin(String customerLogin) {
-        this.customerLogin = customerLogin;
-    }
-
-    public String getCustomerPassword() {
-        return customerPassword;
-    }
-
-    public void setCustomerPassword(String customerPassword) {
-        this.customerPassword = customerPassword;
-    }
     
     public boolean checkLoginPassword(String login, String password) throws SQLException {
+    
+        System.out.println("Employee Login: " + login);
+        System.out.println("Employee Password: " + password);
+        
         Connection con = dbConnect.getConnection();
         String loginDB, passwordDB;
 
@@ -70,7 +80,7 @@ public class Login implements Serializable {
 
         PreparedStatement ps
                 = con.prepareStatement(
-                        "select login, password from Customer where"
+                        "select is_admin, login, password from Employee where"
                                 + " login = ? and password = ?");
         
         ps.setString(1, login);
@@ -82,38 +92,44 @@ public class Login implements Serializable {
             return false;
         }
 
+        isAdmin = (result.getInt("is_admin") == 1);
         loginDB = result.getString("login");
         passwordDB = result.getString("password");
         
-        System.out.println(loginDB);
-        System.out.println(passwordDB);
-        
         result.close();
         con.close();
+        
+        System.out.println("Employee Login: " + loginDB);
+        System.out.println("Employee Password: " + passwordDB);
         
         return (login.equals(loginDB) && password.equals(passwordDB));
     }
 
     public void validate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
-        customerLogin = loginUI.getLocalValue().toString();
-        customerPassword = value.toString();
+        employeeLogin = loginUI.getLocalValue().toString();
+        employeePassword = value.toString();
 
-        if (! checkLoginPassword(customerLogin, customerPassword)) {
+        if (! checkLoginPassword(employeeLogin, employeePassword)) {
             FacesMessage errorMessage = new FacesMessage("Wrong login/password");
             throw new ValidatorException(errorMessage);
         }
     }
 
     public String go() {
-        Util.validateUserSession(customerLogin);
+        if (isAdmin) {
+            EmployeeUtil.validateEmployeeSession(employeeLogin);
+        }
+        else {
+            EmployeeUtil.validateAdminSession(employeeLogin);
+        }
         
         return "success";
     }
     
     //logout event, invalidate session
     public String logout() {
-        Util.invalidateUserSession();
+        EmployeeUtil.invalidateEmployeeSession();
 
         return "logout";
     }

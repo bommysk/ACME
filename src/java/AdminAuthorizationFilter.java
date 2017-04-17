@@ -19,9 +19,9 @@ import javax.servlet.http.HttpSession;
  * @author skahal
  *
  */
-@WebFilter(filterName = "AuthorizeEmployee",
-        urlPatterns = {"/employee/^[^admin]"})
-public class EmployeeAuthorizationFilter implements Filter {
+@WebFilter(filterName = "AuthorizeAdmin",
+        urlPatterns = {"/employee/*"})
+public class AdminAuthorizationFilter implements Filter {
  
     /**
      * Checks if user is logged in. If not it redirects to the login.xhtml page.
@@ -36,7 +36,7 @@ public class EmployeeAuthorizationFilter implements Filter {
         HttpSession session = request.getSession(false);
         String loginURL = request.getContextPath() + "/employeeLogin.xhtml";
 
-        boolean loggedIn = (session != null) && (session.getAttribute("employeeLogin") != null);
+        boolean loggedIn = (session != null) && (session.getAttribute("adminLogin") != null);
         boolean loginRequest = request.getRequestURI().equals(loginURL);
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
         boolean ajaxRequest = "partial/ajax".equals(request.getHeader("Faces-Request"));
