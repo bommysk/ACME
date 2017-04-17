@@ -97,9 +97,6 @@ public class EmployeeLogin implements Serializable {
         result.close();
         con.close();
         
-        System.out.println("Employee Login: " + loginDB);
-        System.out.println("Employee Password: " + passwordDB);
-        
         return (login.equals(loginDB) && password.equals(passwordDB));
     }
 
@@ -122,8 +119,6 @@ public class EmployeeLogin implements Serializable {
         }
         else {
             EmployeeUtil.validateEmployeeSession(employeeLogin);
-            
-            System.out.println("EMP LOGIN: " + EmployeeUtil.getEmployeeLogin());
         }
         
         return "success";
