@@ -27,26 +27,6 @@ CREATE TABLE room (
 
 DROP TABLE IF EXISTS reservation CASCADE;
 
-CREATE TABLE reservation (
-    id             serial PRIMARY KEY,
-    customer_id    integer NOT NULL,
-    room_id        integer NOT NULL,
-    start_date     date NOT NULL,
-    end_date       date NOT NULL
-);
-
-ALTER TABLE reservation 
-   ADD CONSTRAINT fk_customer
-   FOREIGN KEY (customer_id) 
-   REFERENCES customer(id)
-   ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE reservation
-   ADD CONSTRAINT fk_room
-   FOREIGN KEY (room_id) 
-   REFERENCES room(id)
-   ON DELETE CASCADE ON UPDATE CASCADE;
-
 DROP TABLE IF EXISTS roomprice CASCADE;
 
 CREATE TABLE roomprice (
@@ -61,6 +41,33 @@ ALTER TABLE roomprice
    ADD CONSTRAINT fk_room
    FOREIGN KEY (room_id) 
    REFERENCES room(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE reservation (
+    id             serial PRIMARY KEY,
+    customer_id    integer NOT NULL,
+    room_id        integer NOT NULL,
+    start_date     date NOT NULL,
+    end_date       date NOT NULL,
+    roomprice_id   integer NOT NULL
+);
+
+ALTER TABLE reservation 
+   ADD CONSTRAINT fk_customer
+   FOREIGN KEY (customer_id) 
+   REFERENCES customer(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE reservation
+   ADD CONSTRAINT fk_room
+   FOREIGN KEY (room_id) 
+   REFERENCES room(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE reservation
+   ADD CONSTRAINT fk_room
+   FOREIGN KEY (roomprice_id) 
+   REFERENCES roomprice(id)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS employee CASCADE;
