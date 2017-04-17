@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  */
 @WebFilter(filterName = "AuthorizeEmployee",
-        urlPatterns = {"/employee/^[^admin]"})
+        urlPatterns = {"/employee/*"})
 public class EmployeeAuthorizationFilter implements Filter {
  
     /**

@@ -80,7 +80,7 @@ public class EmployeeLogin implements Serializable {
 
         PreparedStatement ps
                 = con.prepareStatement(
-                        "select is_admin, login, password from Employee where"
+                        "select is_admin, login, password from employee where"
                                 + " login = ? and password = ?");
         
         ps.setString(1, login);
@@ -89,6 +89,7 @@ public class EmployeeLogin implements Serializable {
         ResultSet result = ps.executeQuery();
         
         if (! result.next()) {
+            System.out.println("Please don't be in here.");
             return false;
         }
 
@@ -118,10 +119,10 @@ public class EmployeeLogin implements Serializable {
 
     public String go() {
         if (isAdmin) {
-            EmployeeUtil.validateEmployeeSession(employeeLogin);
+            EmployeeUtil.validateAdminSession(employeeLogin);
         }
         else {
-            EmployeeUtil.validateAdminSession(employeeLogin);
+            EmployeeUtil.validateEmployeeSession(employeeLogin);
         }
         
         return "success";

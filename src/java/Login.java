@@ -70,7 +70,7 @@ public class Login implements Serializable {
 
         PreparedStatement ps
                 = con.prepareStatement(
-                        "select login, password from Customer where"
+                        "select login, password from customer where"
                                 + " login = ? and password = ?");
         
         ps.setString(1, login);
