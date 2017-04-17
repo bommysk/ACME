@@ -67,9 +67,6 @@ public class EmployeeLogin implements Serializable {
     }
     
     public boolean checkLoginPassword(String login, String password) throws SQLException {
-    
-        System.out.println("Employee Login: " + login);
-        System.out.println("Employee Password: " + password);
         
         Connection con = dbConnect.getConnection();
         String loginDB, passwordDB;
@@ -120,9 +117,13 @@ public class EmployeeLogin implements Serializable {
     public String go() {
         if (isAdmin) {
             EmployeeUtil.validateAdminSession(employeeLogin);
+            
+            EmployeeUtil.validateEmployeeSession(employeeLogin);
         }
         else {
             EmployeeUtil.validateEmployeeSession(employeeLogin);
+            
+            System.out.println("EMP LOGIN: " + EmployeeUtil.getEmployeeLogin());
         }
         
         return "success";

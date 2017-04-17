@@ -142,12 +142,12 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>/employee/admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     <navigation-rule>
         <from-view-id>
-            /employee/admin/adminDashboard.xhtml
+            /admin/adminDashboard.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>

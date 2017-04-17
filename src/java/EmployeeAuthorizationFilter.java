@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  */
 @WebFilter(filterName = "AuthorizeEmployee",
-        urlPatterns = {"/employee/^[^admin]"})
+        urlPatterns = {"/employee/*"})
 public class EmployeeAuthorizationFilter implements Filter {
  
     /**
@@ -30,7 +30,7 @@ public class EmployeeAuthorizationFilter implements Filter {
         + "<partial-response><redirect url=\"%s\"></redirect></partial-response>";
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {    
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException { 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
@@ -55,7 +55,7 @@ public class EmployeeAuthorizationFilter implements Filter {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
         }
-        else {
+        else {       
             response.sendRedirect(loginURL); // So, just perform standard synchronous redirect.
         }
     }

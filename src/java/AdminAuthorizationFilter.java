@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  */
 @WebFilter(filterName = "AuthorizeAdmin",
-        urlPatterns = {"/employee/*"})
+        urlPatterns = {"/admin/*"})
 public class AdminAuthorizationFilter implements Filter {
  
     /**
@@ -35,6 +35,7 @@ public class AdminAuthorizationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
         String loginURL = request.getContextPath() + "/employeeLogin.xhtml";
+        String employeeDashboardURL = request.getContextPath() + "/employee/employeeDashboard.xhtml";
 
         boolean loggedIn = (session != null) && (session.getAttribute("adminLogin") != null);
         boolean loginRequest = request.getRequestURI().equals(loginURL);
@@ -56,7 +57,13 @@ public class AdminAuthorizationFilter implements Filter {
             response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
         }
         else {
-            response.sendRedirect(loginURL); // So, just perform standard synchronous redirect.
+            if ((session != null) && (session.getAttribute("employeeLogin") != null)) {
+                // redirect to dashboard if an employee but not an admin tries to access admin page
+                response.sendRedirect(employeeDashboardURL); // So, just perform standard synchronous redirect.
+            }
+            else {
+                response.sendRedirect(loginURL); // So, just perform standard synchronous redirect.
+            }
         }
     }
  

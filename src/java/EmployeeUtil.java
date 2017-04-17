@@ -33,7 +33,6 @@ public class EmployeeUtil implements Serializable {
     public static String validateEmployeeSession(String employeeLogin) {
         HttpSession session = getSession();
         session.setAttribute("employeeLogin", employeeLogin);
-        System.out.println("VALIDATING");
         return "success";
     }
     
@@ -70,12 +69,11 @@ public class EmployeeUtil implements Serializable {
         
         return session.getAttribute("employeeLogin").toString();
     }
-
-    public static String getEmployeeId() {
-        HttpSession session = getSession();
-        if (session != null)
-            return (String) session.getAttribute("employeeId");
-        else
-            return null;
+    
+    public static String getAdminLogin() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                        .getExternalContext().getSession(false);
+        
+        return session.getAttribute("adminLogin").toString();
     }
 }
