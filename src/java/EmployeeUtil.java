@@ -33,6 +33,7 @@ public class EmployeeUtil implements Serializable {
     public static String validateEmployeeSession(String employeeLogin) {
         HttpSession session = getSession();
         session.setAttribute("employeeLogin", employeeLogin);
+        System.out.println("VALIDATING");
         return "success";
     }
     

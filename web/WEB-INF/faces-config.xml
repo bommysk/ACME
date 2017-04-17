@@ -3,9 +3,15 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
     <managed-bean>
         <managed-bean-name>util</managed-bean-name>
         <managed-bean-class>Util</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+     <managed-bean>
+        <managed-bean-name>employeeutil</managed-bean-name>
+        <managed-bean-class>EmployeeUtil</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
@@ -27,6 +33,8 @@
         <managed-bean-class>EmployeeLogin</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>  
+    
+    
     <navigation-rule>
         <from-view-id>
             /index.xhtml
@@ -61,7 +69,6 @@
             <to-view-id>/deleteCustomer.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
     <navigation-rule>
         <from-view-id>
             /newCustomer.xhtml
@@ -71,7 +78,6 @@
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
     <navigation-rule>
         <from-view-id>
             /findCustomer.xhtml
@@ -80,8 +86,7 @@
             <from-outcome>showCustomer</from-outcome>
             <to-view-id>/displayCustomer.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-    
+    </navigation-rule> 
     <navigation-rule>
         <from-view-id>
             /deleteCustomer.xhtml
@@ -90,8 +95,7 @@
             <from-outcome>main</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-    
+    </navigation-rule>  
     <navigation-rule>
         <from-view-id>
             /login.xhtml
@@ -109,8 +113,7 @@
             <from-outcome>employeeLogin</from-outcome>
             <to-view-id>/employeeLogin.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-    
+    </navigation-rule>  
     <navigation-rule>
         <from-view-id>
             /employeeLogin.xhtml
@@ -129,7 +132,6 @@
             <to-view-id>/employeeLogin.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
     <navigation-rule>
         <from-view-id>
             /employee/employeeDashboard.xhtml
@@ -142,8 +144,7 @@
             <from-outcome>admin</from-outcome>
             <to-view-id>/employee/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-    
+    </navigation-rule> 
     <navigation-rule>
         <from-view-id>
             /employee/admin/adminDashboard.xhtml
@@ -156,8 +157,7 @@
             <from-outcome>employee</from-outcome>
             <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-    
+    </navigation-rule> 
     <navigation-rule>
         <from-view-id>
             /secured/customerDashboard.xhtml
@@ -170,8 +170,7 @@
             <from-outcome>newCustomer</from-outcome>
             <to-view-id>/newCustomer.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-    
+    </navigation-rule> 
     <navigation-rule>
         <from-view-id>
             /secured/about.xhtml
@@ -184,8 +183,7 @@
             <from-outcome>newCustomer</from-outcome>
             <to-view-id>/secured/newCustomer.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-    
+    </navigation-rule> 
     <navigation-rule>
         <from-view-id>
             /secured/contact.xhtml
@@ -199,7 +197,6 @@
             <to-view-id>/secured/newCustomer.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
     <navigation-rule>
         <from-view-id>
             /secured/index.xhtml
