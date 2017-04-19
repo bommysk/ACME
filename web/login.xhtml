@@ -32,12 +32,14 @@
                     <div class="panel-body">
                         <h:form class="form-signin">
                             <label for="username" class="sr-only">Username</label>
-                            <h:inputText id="username" value="#{login.customerLogin}" required ="true"
+                            <h:inputText id="login" value="#{login.customerLogin}" required="true"
                                                     binding="#{login.loginUI}"
-                                                    requiredMessage="Your must enter your email."
+                                                    validatorMessage="This login already exists, please pick another."
+                                                    validator="customer.validateLogin"
+                                                    requiredMessage="Your must enter your login."
                                                     class="form-control"
-                                                    a:placeholder="Username" />
-                            <h:message for="username" style="color:red;margin:8px;"/>
+                                                    a:placeholder="Login" />
+                            <h:message for="login" style="color:red;margin:8px;"/>
                             <label for="password" class="sr-only">Password</label>
                             <h:inputSecret value="#{login.customerPassword}" required ="true"
                                                          requiredMessage="Your must enter password"

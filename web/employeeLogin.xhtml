@@ -33,16 +33,18 @@
 
                     <div class="panel-body">
                         <h:form class="form-signin">
-                            <label for="username" class="sr-only">Username</label>
+                            <label for="login" class="sr-only">Login</label>
                             <h:inputText id="username" value="#{employeelogin.employeeLogin}" required="true"
                                                     binding="#{employeelogin.loginUI}"
                                                     requiredMessage="Your must enter your username."
+                                                    validatorMessage="This login already exists, please pick another."
+                                                    validator="#{employee.validateLogin}"
                                                     class="form-control"
-                                                    a:placeholder="Username" />
-                            <h:message for="username" style="color:red;margin:8px;"/>
+                                                    a:placeholder="Login" />
+                            <h:message for="login" style="color:red;margin:8px;"/>
                             <label for="password" class="sr-only">Password</label>
                             <h:inputSecret value="#{employeelogin.employeePassword}" required="true"
-                                                         requiredMessage="Your must enter password"
+                                                         requiredMessage="You must enter password"
                                                          validatorMessage="Login/Password incorrect"
                                                          validator="#{employeelogin.validate}"
                                                          class="form-control"

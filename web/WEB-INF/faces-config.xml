@@ -29,6 +29,11 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>employee</managed-bean-name>
+        <managed-bean-class>Employee</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
+    <managed-bean>
         <managed-bean-name>employeelogin</managed-bean-name>
         <managed-bean-class>EmployeeLogin</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
@@ -141,6 +146,10 @@
             <to-view-id>/employeeLogin.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
@@ -154,23 +163,142 @@
             <to-view-id>/employeeLogin.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newemployee</from-outcome>
+            <to-view-id>/admin/newEmployee.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>deleteemployee</from-outcome>
+            <to-view-id>/admin/deleteEmployee.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>showallemployees</from-outcome>
+            <to-view-id>/admin/showAllEmployees.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>changepassword</from-outcome>
+            <to-view-id>/admin/changePassword.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+     
+    <navigation-rule>
+        <from-view-id>
+            /admin/index.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+     <navigation-rule>
+        <from-view-id>
+            /admin/newEmployee.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newemployee</from-outcome>
+            <to-view-id>/admin/newEmployee.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>
+            /admin/deleteEmployee.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newemployee</from-outcome>
+            <to-view-id>/admin/newEmployee.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+        <navigation-rule>
+        <from-view-id>
+            /admin/showAllEmployees.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>employee</from-outcome>
             <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     <navigation-rule>
         <from-view-id>
-            /secured/customerDashboard.xhtml
+            /employee/index.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>
-            <to-view-id>/login.xhtml</to-view-id>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>newCustomer</from-outcome>
-            <to-view-id>/newCustomer.xhtml</to-view-id>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
         </navigation-case>
-    </navigation-rule> 
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>
+            /admin/changePassword.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
     <navigation-rule>
         <from-view-id>
             /secured/about.xhtml

@@ -152,7 +152,7 @@ public class Customer implements Serializable {
 
         Statement statement = con.createStatement();
 
-        PreparedStatement preparedStatement = con.prepareStatement("Insert into Customer(login, password, first_name, last_name, email, postal_address, credit_card_number, expiration_date, crc_code, created_date) values(?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement preparedStatement = con.prepareStatement("Insert into customer(login, password, first_name, last_name, email, postal_address, credit_card_number, expiration_date, crc_code, created_date) values(?,?,?,?,?,?,?,?,?,?)");
         preparedStatement.setString(1, customerLogin);
         preparedStatement.setString(2, customerPassword);
         preparedStatement.setString(3, firstName);
@@ -196,7 +196,7 @@ public class Customer implements Serializable {
         
         count = result.getInt("count");
         
-        if (count == 0) {
+        if (count != 0) {
             FacesMessage errorMessage = new FacesMessage("This login already exists, please pick another one.");
             throw new ValidatorException(errorMessage);
         }

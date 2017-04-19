@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
+    <h:head>
+        <title>Show All Employees</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/styles.css" rel="stylesheet" type="text/css" />
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+        
+        <templates:employeeAdminNavigation/>
+        
+        <div class="container col-md-6 col-md-offset-3">
+                
+            <h1 class="text-center">Employees</h1>
+         
+            <h:dataTable value="#{employee.getEmployeeList()}" var="emp" border="1" style="width:100%"
+                        styleClass="table table-striped table-inverse">
+                <h:column>
+                    <f:facet name="header"> Admin </f:facet>
+                        #{emp.isAdmin}
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header"> Login </f:facet>
+                        #{emp.employeeLogin}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"> Name </f:facet>
+                        #{emp.firstName.concat(" ".concat(emp.lastName))}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"> Email </f:facet>
+                        #{emp.email}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"> Postal Address </f:facet>
+                        #{emp.postalAddress}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Created Date</f:facet>
+                        #{emp.createdDate}
+                </h:column>
+            </h:dataTable>
+        </div>
+    </h:body>
+</html>
