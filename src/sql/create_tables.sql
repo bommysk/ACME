@@ -22,7 +22,7 @@ CREATE TABLE room (
     id             serial PRIMARY KEY,
     view           varchar(40) NOT NULL,
     type           varchar(40) NOT NULL,
-    room_number    varchar(100) NOT NULL
+    room_number    integer NOT NULL
 );
 
 DROP TABLE IF EXISTS reservation CASCADE;
@@ -33,8 +33,7 @@ CREATE TABLE roomprice (
     id             serial PRIMARY KEY,
     room_id        integer NOT NULL,
     price          float NOT NULL,
-    start_date     date NOT NULL,
-    end_date       date NOT NULL
+    day            date NOT NULL
 );
 
 ALTER TABLE roomprice 
@@ -48,8 +47,7 @@ CREATE TABLE reservation (
     customer_id    integer NOT NULL,
     room_id        integer NOT NULL,
     start_date     date NOT NULL,
-    end_date       date NOT NULL,
-    roomprice_id   integer NOT NULL
+    end_date       date NOT NULL
 );
 
 ALTER TABLE reservation 
@@ -62,12 +60,6 @@ ALTER TABLE reservation
    ADD CONSTRAINT fk_room
    FOREIGN KEY (room_id) 
    REFERENCES room(id)
-   ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE reservation
-   ADD CONSTRAINT fk_room
-   FOREIGN KEY (roomprice_id) 
-   REFERENCES roomprice(id)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS employee CASCADE;
@@ -83,6 +75,9 @@ CREATE TABLE employee (
     postal_address      varchar(100) NOT NULL,
     created_date        date NOT NULL
 );
+
+INSERT INTO employee(is_admin, login, password, first_name, last_name, email, postal_address, created_date)
+VALUES(1, 'skahal', 'password', 'Shubham', 'Kahal', 'shubhamkahal@acme.com', '123 Main Street', '04/20/2017');
 
 DROP TABLE IF EXISTS reward CASCADE;
 

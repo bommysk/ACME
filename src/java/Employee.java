@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.component.UIInput;
 
 @Named(value = "employee")
 @SessionScoped
@@ -32,7 +33,7 @@ public class Employee implements Serializable {
         return login;
     }
 
-    public void setEmployeeLogin(EmployeeLogin login) {
+    public void setLogin(EmployeeLogin login) {
         this.login = login;
     }
 
@@ -145,7 +146,7 @@ public class Employee implements Serializable {
 
         Statement statement = con.createStatement();
 
-        PreparedStatement preparedStatement = con.prepareStatement("Insert into employee(is_admin, login, password, first_name, last_name, email, postal_address, created_date) values(?,?,?,?,?,?,?,?)");
+        PreparedStatement preparedStatement = con.prepareStatement("insert into employee(is_admin, login, password, first_name, last_name, email, postal_address, created_date) values(?,?,?,?,?,?,?,?)");
         preparedStatement.setInt(1, isAdmin);
         preparedStatement.setString(2, employeeLogin);
         preparedStatement.setString(3, employeePassword);
@@ -163,7 +164,7 @@ public class Employee implements Serializable {
         
         System.out.println(EmployeeUtil.getEmployeeLogin());
         
-        return "index";
+        return "admin";
     }
     
     public String deleteEmployee() throws SQLException, ParseException {

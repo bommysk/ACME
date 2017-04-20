@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.ArrayList;
 import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
@@ -14,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedProperty;
@@ -152,7 +154,7 @@ public class Customer implements Serializable {
 
         Statement statement = con.createStatement();
 
-        PreparedStatement preparedStatement = con.prepareStatement("Insert into customer(login, password, first_name, last_name, email, postal_address, credit_card_number, expiration_date, crc_code, created_date) values(?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement preparedStatement = con.prepareStatement("Insert into customer(login, password, first_name, last_name, email, postal_address, credit_card_number, expiration_date, cvv_code, created_date) values(?,?,?,?,?,?,?,?,?,?)");
         preparedStatement.setString(1, customerLogin);
         preparedStatement.setString(2, customerPassword);
         preparedStatement.setString(3, firstName);
@@ -203,5 +205,42 @@ public class Customer implements Serializable {
         
         result.close();
         con.close();
+    }
+    
+    public List<Customer> getCustomerList() throws SQLException {
+
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "select login, first_name, last_name, email, postal_address, created_date from customer order by first_name, last_name");
+
+        //get customer data from database
+        ResultSet result = ps.executeQuery();
+
+        List<Customer> custList = new ArrayList<>();
+
+        while (result.next()) {
+            Customer cust = new Customer();
+
+            cust.setCustomerLogin(result.getString("login"));
+            cust.setFirstName(result.getString("first_name"));
+            cust.setLastName(result.getString("last_name"));
+            cust.setEmail(result.getString("email"));
+            cust.setPostalAddress(result.getString("postal_address"));
+            cust.setCreatedDate(result.getDate("created_date"));
+
+            //store all data into a List
+            custList.add(cust);
+        }
+        
+        result.close();
+        con.close();
+        
+        return custList;
     }
 }
