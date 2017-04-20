@@ -167,6 +167,11 @@ public class Employee implements Serializable {
         return "admin";
     }
     
+    public void clear() {
+        setEmployeeLogin(null);
+        setEmployeePassword(null);
+    }
+    
     public String deleteEmployee() throws SQLException, ParseException {
         Connection con = dbConnect.getConnection();
 
@@ -184,6 +189,7 @@ public class Employee implements Serializable {
         statement.close();
         con.commit();
         con.close();
+        clear();
         
         return "admin";
     }
@@ -209,6 +215,9 @@ public class Employee implements Serializable {
         
         count = result.getInt("count");
         
+         System.out.println("Employee Login: " + employeeLogin);
+        System.out.println("Count: " + count);
+        
         if (count != 0) {
             FacesMessage errorMessage = new FacesMessage("This login already exists, please pick another one.");
             throw new ValidatorException(errorMessage);
@@ -216,6 +225,7 @@ public class Employee implements Serializable {
         
         result.close();
         con.close();
+        clear();
     }
     
     public void validateDeleteLogin(FacesContext context, UIComponent component, Object value)
@@ -223,7 +233,8 @@ public class Employee implements Serializable {
         
         Connection con = dbConnect.getConnection();
         int count;
-
+        String submittedLogin = (String) value;
+            
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
@@ -231,7 +242,7 @@ public class Employee implements Serializable {
         con.setAutoCommit(false);
 
         PreparedStatement preparedStatement = con.prepareStatement("Select count(*) as count from employee where login = ?");
-        preparedStatement.setString(1, employeeLogin);
+        preparedStatement.setString(1, submittedLogin);
         
         ResultSet result = preparedStatement.executeQuery();
 
@@ -239,11 +250,12 @@ public class Employee implements Serializable {
         
         count = result.getInt("count");
         
-        System.out.println("Employee Login: " + employeeLogin);
+        System.out.println("Employee Login: " + submittedLogin);
         System.out.println("Count: " + count);
         
         result.close();
         con.close();
+        clear();
         
         if (count == 0) {
             FacesMessage errorMessage = new FacesMessage("This login does not exist.");
@@ -344,6 +356,7 @@ public class Employee implements Serializable {
        statement.close();
        con.commit();
        con.close();
+       clear();
 
        return "admin";
     }
@@ -351,6 +364,8 @@ public class Employee implements Serializable {
     public void validateOldPassword(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
         
+        String submittedPassword = (String) value;
+
         Connection con = dbConnect.getConnection();
         int count;
 
@@ -360,16 +375,15 @@ public class Employee implements Serializable {
         
         con.setAutoCommit(false);
 
-        PreparedStatement preparedStatement = con.prepareStatement("select count(*) as count from customer where login = ? and password = ?");
+        PreparedStatement preparedStatement = con.prepareStatement("select count(*) as count from employee where login = ? and password = ?");
         System.out.println(EmployeeUtil.getEmployeeLogin());
-        System.out.println("YOOO");
-        System.out.println(employeePassword);
-        System.out.println(employeeOldPassword);
-        preparedStatement.setString(1, EmployeeUtil.getEmployeeLogin());
-        preparedStatement.setString(2, employeeOldPassword);
+        System.out.println("Employee Old Password");
+        System.out.println(submittedPassword);
+        preparedStatement.setString(1, EmployeeUtil.getEmployeeLogin().trim());
+        preparedStatement.setString(2, submittedPassword);
         
         ResultSet result = preparedStatement.executeQuery();
-
+        
         result.next();
         
         count = result.getInt("count");

@@ -189,6 +189,10 @@
             <from-outcome>showallcustomers</from-outcome>
             <to-view-id>/employee/showAllCustomers.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>deletecustomer</from-outcome>
+            <to-view-id>/employee/deleteCustomer.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule> 
     
     <navigation-rule>
@@ -212,6 +216,24 @@
     <navigation-rule>
         <from-view-id>
             /employee/showAllCustomers.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /employee/deleteCustomer.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>

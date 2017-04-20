@@ -154,7 +154,7 @@ public class Customer implements Serializable {
 
         Statement statement = con.createStatement();
 
-        PreparedStatement preparedStatement = con.prepareStatement("Insert into customer(login, password, first_name, last_name, email, postal_address, credit_card_number, expiration_date, cvv_code, created_date) values(?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement preparedStatement = con.prepareStatement("insert into customer(login, password, first_name, last_name, email, postal_address, credit_card_number, expiration_date, cvv_code, created_date) values(?,?,?,?,?,?,?,?,?,?)");
         preparedStatement.setString(1, customerLogin);
         preparedStatement.setString(2, customerPassword);
         preparedStatement.setString(3, firstName);
@@ -177,11 +177,34 @@ public class Customer implements Serializable {
         return "index";
     }
     
+    public String deleteCustomer() throws SQLException, ParseException {
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        con.setAutoCommit(false);
+
+        Statement statement = con.createStatement();
+        
+        PreparedStatement preparedStatement = con.prepareStatement("delete from customer where login = ?");
+        preparedStatement.setString(1, customerLogin);
+        
+        preparedStatement.executeUpdate();
+
+        statement.close();
+        con.commit();
+        con.close();
+                
+        return "/employee/employeeDashboard.xhtml";
+    }
+    
     public void validateLogin(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
         
         Connection con = dbConnect.getConnection();
         int count;
+        String submittedLogin = (String) value;
 
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -190,7 +213,7 @@ public class Customer implements Serializable {
         con.setAutoCommit(false);
 
         PreparedStatement preparedStatement = con.prepareStatement("Select count(*) as count from customer where login = ?");
-        preparedStatement.setString(1, customerLogin);
+        preparedStatement.setString(1, submittedLogin);
         
         ResultSet result = preparedStatement.executeQuery();
 
@@ -205,6 +228,37 @@ public class Customer implements Serializable {
         
         result.close();
         con.close();
+    }
+    
+    public void validateDeleteLogin(FacesContext context, UIComponent component, Object value)
+            throws ValidatorException, SQLException {
+        
+        Connection con = dbConnect.getConnection();
+        int count;
+        String submittedLogin = (String) value;
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+
+        PreparedStatement preparedStatement = con.prepareStatement("Select count(*) as count from customer where login = ?");
+        preparedStatement.setString(1, submittedLogin);
+        
+        ResultSet result = preparedStatement.executeQuery();
+
+        result.next();
+        
+        count = result.getInt("count");
+        
+        result.close();
+        con.close();
+        
+        if (count == 0) {
+            FacesMessage errorMessage = new FacesMessage("This login does not exist.");
+            throw new ValidatorException(errorMessage);
+        }
     }
     
     public List<Customer> getCustomerList() throws SQLException {

@@ -13,6 +13,8 @@ def insert_rooms():
 	pool_view_room_range = 12
 	floor_range = 5
 
+	cursor.execute("DELETE FROM room");
+
 	# insert ocean rooms
 	for floor in range(floor_range):
 		for room in range(ocean_view_room_range):
@@ -21,15 +23,15 @@ def insert_rooms():
 			if (room + 1) % 2 == 0:
 				print("inserting", room_number)
 				cursor.execute(
-				     """INSERT INTO room (view, type, room_number)
+				     """INSERT INTO room (room_number, view, type)
 				        VALUES (%s, %s, %s);""",
-				    ("ocean", "double queen", room_number))
+				    (room_number, "ocean", "double queen"))
 			else:
 				print("inserting", room_number)
 				cursor.execute(
-				    """INSERT INTO room (view, type, room_number)
+				    """INSERT INTO room (room_number, view, type)
 				        VALUES (%s, %s, %s);""",
-				    ("ocean", "single king", room_number))
+				    (room_number, "ocean", "single king"))
 
 	print("Pool Rooms")
 
@@ -40,18 +42,37 @@ def insert_rooms():
 			if (room + 1) % 2 == 0:
 				print("inserting", room_number)
 				cursor.execute(
-				     """INSERT INTO room (view, type, room_number)
+				     """INSERT INTO room (room_number, view, type)
 				        VALUES (%s, %s, %s);""",
-				    ("pool", "double queen", room_number))
+				    (room_number, "pool", "double queen"))
 			else:
 				print("inserting", room_number)
 				cursor.execute(
-				    """INSERT INTO room (view, type, room_number)
+				    """INSERT INTO room (room_number, view, type)
 				        VALUES (%s, %s, %s);""",
-				    ("pool", "single king", room_number))
+				    (room_number, "pool", "single king"))
 	
 	conn.commit()
 	conn.close()
+
+def insert_room_prices():
+	conn, cursor = db_connection()
+
+	room_range = 12
+	floor_range = 5
+
+	for floor in range(floor_range):
+		for room in range(room_range):
+			room_number = (int(str(floor + 1) + str(room + 1)))
+
+			cursor.execute(
+				    """INSERT INTO roomprice (room_number, price, day)
+				        VALUES (%s, %s, %s);""",
+				    (room_number, 100, "04/20/2017"))
+
+	conn.commit()
+	conn.close()
+
 
 def db_connection():
 	#Define our connection string
@@ -71,3 +92,4 @@ def db_connection():
 
 if __name__ == "__main__":
 	insert_rooms()
+	insert_room_prices()

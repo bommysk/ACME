@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <title>Delete Customer</title>
+    <h:head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/styles.css" rel="stylesheet" type="text/css" />
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+        <templates:employeeNavigation/>
+        
+        <div class="container col-md-6 col-md-offset-3">
+                
+            <h1 class="text-center">Delete Customer Account</h1>
+
+            <div class="panel panel-primary">
+                
+                <div class="panel-heading"></div>
+
+                <div class="panel-body">
+
+                    <h:form>
+                        
+                        <div class="form-group">
+                            <label>Customer Login:</label> <h:inputText value="#{customer.customerLogin}" required="true"
+                                                        requiredMessage="Your must enter the employee login name."
+                                                        id="login"
+                                                        validatorMessage="This employee login does not exist."
+                                                        validator="#{customer.validateDeleteLogin}"
+                                                        class="form-control"
+                                                        a:placeholder="Login" />
+                            <h:message for="login" style="color:red;margin:8px;"/>
+                        </div>
+                        
+                        <h:commandButton value="Delete" class="btn btn-danger" action="#{customer.deleteCustomer}">
+                        </h:commandButton>
+                        
+                    </h:form>
+                    
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+
