@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.annotation.ManagedBean;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -14,8 +12,6 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
-import javax.xml.registry.infomodel.User;
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,9 +29,9 @@ public class Login implements Serializable {
 
     private String customerLogin;
     private String customerPassword;
-    private UIInput loginUI;
     private final DBConnect dbConnect = new DBConnect();
-    
+    private UIInput loginUI;
+
     public UIInput getLoginUI() {
         return loginUI;
     }
@@ -43,7 +39,7 @@ public class Login implements Serializable {
     public void setLoginUI(UIInput loginUI) {
         this.loginUI = loginUI;
     }
-
+    
     public String getCustomerLogin() {
         return customerLogin;
     }
@@ -96,10 +92,10 @@ public class Login implements Serializable {
 
     public void validate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
-        customerLogin = loginUI.getLocalValue().toString();
-        customerPassword = value.toString();
+        String submittedLogin = loginUI.getLocalValue().toString();
+        String submittedPassword = value.toString();
 
-        if (! checkLoginPassword(customerLogin, customerPassword)) {
+        if (! checkLoginPassword(submittedLogin, submittedPassword)) {
             FacesMessage errorMessage = new FacesMessage("Wrong login/password");
             throw new ValidatorException(errorMessage);
         }

@@ -29,14 +29,14 @@
                     <h:form>
                         
                         <div class="form-group">
-                            <div class="form-group">
-                                <label style="margin-right:5px">Is Admin:</label>
-                                <h:selectOneMenu value = "#{employee.isAdmin}"> 
-                                    <f:selectItem itemValue="1" itemLabel="Yes" /> 
-                                    <f:selectItem itemValue="0" itemLabel="No" />    
-                                </h:selectOneMenu>  
-                            </div>
-                            
+                            <label style="margin-right:5px">Is Admin:</label>
+                            <h:selectOneMenu value = "#{employee.isAdmin}"> 
+                                <f:selectItem itemValue="1" itemLabel="Yes" /> 
+                                <f:selectItem itemValue="0" itemLabel="No" />    
+                            </h:selectOneMenu>  
+                        </div>
+                        
+                        <div class="form-group">
                             <label>Username:</label> <h:inputText value="#{employee.employeeLogin}" required="true"
                                                         requiredMessage="Your must enter your login name."
                                                         validatorMessage="This login already exists, please pick another one."

@@ -47,7 +47,11 @@
         <managed-bean-class>Room</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>  
-    
+    <managed-bean>
+        <managed-bean-name>reservation</managed-bean-name>
+        <managed-bean-class>Reservation</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
     
     <navigation-rule>
         <from-view-id>
@@ -60,6 +64,10 @@
         <navigation-case>
             <from-outcome>success</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     <navigation-rule>
@@ -90,6 +98,10 @@
         <navigation-case>
             <from-outcome>index</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -128,6 +140,10 @@
             <from-outcome>employeeLogin</from-outcome>
             <to-view-id>/employeeLogin.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
@@ -142,11 +158,30 @@
             <from-outcome>employeeLogin</from-outcome>
             <to-view-id>/employeeLogin.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
-      
-        
-            
+    <navigation-rule>
+        <from-view-id>
+            /secured/newReservation.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employeeLogin</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+  
     <navigation-rule>
         <from-view-id>
             /employeeLogin.xhtml
@@ -163,6 +198,10 @@
         <navigation-case>
             <from-outcome>employeeLogin</from-outcome>
             <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -192,6 +231,10 @@
         <navigation-case>
             <from-outcome>deletecustomer</from-outcome>
             <to-view-id>/employee/deleteCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>changepassword</from-outcome>
+            <to-view-id>/employee/changePassword.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     
@@ -394,6 +437,25 @@
             <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>  
+    
+    <navigation-rule>
+        <from-view-id>
+            /employee/changePassword.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+    
     <navigation-rule>
         <from-view-id>
             /secured/about.xhtml
@@ -406,7 +468,30 @@
             <from-outcome>newCustomer</from-outcome>
             <to-view-id>/secured/newCustomer.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule> 
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /about.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newCustomer</from-outcome>
+            <to-view-id>/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+     
     <navigation-rule>
         <from-view-id>
             /secured/contact.xhtml
@@ -419,7 +504,30 @@
             <from-outcome>newCustomer</from-outcome>
             <to-view-id>/secured/newCustomer.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /contact.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newCustomer</from-outcome>
+            <to-view-id>/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /secured/index.xhtml
@@ -431,6 +539,10 @@
         <navigation-case>
             <from-outcome>newCustomer</from-outcome>
             <to-view-id>/secured/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     

@@ -34,8 +34,6 @@
                             <label for="username" class="sr-only">Username</label>
                             <h:inputText id="login" value="#{login.customerLogin}" required="true"
                                                     binding="#{login.loginUI}"
-                                                    validatorMessage="This login already exists, please pick another."
-                                                    validator="#{customer.validateLogin}"
                                                     requiredMessage="Your must enter your login."
                                                     class="form-control"
                                                     a:placeholder="Login" />

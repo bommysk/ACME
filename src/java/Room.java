@@ -18,6 +18,7 @@ public class Room implements Serializable {
     private String view;
     private String type;
     private Integer roomNumber;
+    private Double price;
     
     public DBConnect getDbConnect() {
         return dbConnect;
@@ -51,6 +52,14 @@ public class Room implements Serializable {
         this.roomNumber = roomNumber;
     }
     
+    public Double getPrice() {
+        return price;
+    }
+    
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+    
      public List<Room> getRoomList() throws SQLException {
 
         Connection con = dbConnect.getConnection();
@@ -61,7 +70,7 @@ public class Room implements Serializable {
 
         PreparedStatement ps
                 = con.prepareStatement(
-                        "select view, type, room_number from room order by room_number");
+                        "select view, type, room.room_number, price from room join roomprice on room.room_number = roomprice.room_number order by room_number");
 
         //get customer data from database
         ResultSet result = ps.executeQuery();
@@ -74,6 +83,7 @@ public class Room implements Serializable {
             room.setView(result.getString("view"));
             room.setType(result.getString("type"));
             room.setRoomNumber(result.getInt("room_number"));
+            room.setPrice(result.getDouble("price"));
             
             //store all data into a List
             roomList.add(room);
@@ -83,5 +93,33 @@ public class Room implements Serializable {
         con.close();
         
         return roomList;
+    }
+     
+    public Integer getNextRoomNumber(String view, String type) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        Integer roomNum;
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+
+        PreparedStatement preparedStatement = con.prepareStatement("select min(room_number) room_number from room where view = ? and type = ?");
+        preparedStatement.setString(1, view);
+        preparedStatement.setString(2, type);
+        
+        ResultSet result = preparedStatement.executeQuery();
+
+        result.next();
+        
+        roomNum = result.getInt("room_number");
+        
+        System.out.println("select min(room_number) room_number from room where view = " + view + " and type = " + type);
+        
+        result.close();
+        con.close();
+        
+        return roomNum;
     }
 }

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
+    <title>New Reservation</title>
+    <h:head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/styles.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+        <templates:securedNavigation/>
+        
+        <div class="container">
+            <h1 class="text-center">New Reservation</h1>
+            
+            <div class="col-md-6 col-md-offset-3">
+
+                <div class="panel panel-success">
+
+                    <div class="panel-heading"><strong>Welcome</strong></div>
+
+                    <div class="panel-body">
+
+                        <h:form class="form-signin">
+
+                            <div class="form-group">
+                                <label style="margin-right:5px">View:</label>
+                                <h:selectOneMenu value="#{reservation.view}"
+                                                 required="true"
+                                                 requiredMessage="You must enter the view you would like."> 
+                                    <f:selectItem itemValue="pool" itemLabel="pool" /> 
+                                    <f:selectItem itemValue="ocean" itemLabel="ocean" />    
+                                </h:selectOneMenu>  
+                            </div>
+
+                            <div class="form-group">
+                                <label style="margin-right:5px">Type:</label>
+                                <h:selectOneMenu value="#{reservation.type}"
+                                                 required="true"
+                                                 requiredMessage="You must enter the type you would like."> 
+                                    <f:selectItem itemValue="single king" itemLabel="single king" /> 
+                                    <f:selectItem itemValue="double queen" itemLabel="double queen" />    
+                                </h:selectOneMenu>  
+                            </div>
+
+                            <div class="form-group">
+                                <label style="margin-right:5px">Start Date:</label>
+                                <h:inputText styleClass="datepicker" value="#{reservation.startDate}" />
+                            </div>
+
+                            <div class="form-group">
+                                <label style="margin-right:5px">End Date:</label>
+                                <h:inputText styleClass="datepicker" value="#{reservation.endDate}" />
+                            </div>
+
+                            <h:commandButton value="Reserve" class="btn btn-primary" action="#{reservation.createReservation}"/>
+
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            //For calendar
+            $(".datepicker").datepicker({
+                inline: true,
+                showWeek: true,
+                firstDay: 1
+            });
+
+        </script>
+    </h:body>
+</html>
+

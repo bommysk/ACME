@@ -206,7 +206,7 @@ public class Employee implements Serializable {
         
         con.setAutoCommit(false);
 
-        PreparedStatement preparedStatement = con.prepareStatement("Select count(*) as count from employee where login = ?");
+        PreparedStatement preparedStatement = con.prepareStatement("select count(*) as count from employee where login = ?");
         preparedStatement.setString(1, employeeLogin);
         
         ResultSet result = preparedStatement.executeQuery();
