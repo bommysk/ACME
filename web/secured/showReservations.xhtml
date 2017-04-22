@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
+    <h:head>
+        <title>Show Reservations</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/styles.css" rel="stylesheet" type="text/css" />
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+        
+        <templates:securedNavigation/>
+        
+        <div class="container col-md-6 col-md-offset-3">
+                
+            <h1 class="text-center">My Reservations</h1>
+         
+            <h:dataTable value="#{reservation.getReservationList()}" var="reservation" border="1" style="width:100%"
+                        styleClass="table table-striped table-inverse">
+                <h:column>
+                    <f:facet name="header"> Room Number </f:facet>
+                        #{reservation.roomNumber}
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header"> View </f:facet>
+                        #{reservation.view}
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header"> Type </f:facet>
+                        #{reservation.type}
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header"> Start Date </f:facet>
+                        #{reservation.startDate}
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header"> End Date </f:facet>
+                        #{reservation.endDate}
+                </h:column>
+                
+            </h:dataTable>
+            
+        </div>
+    </h:body>
+</html>

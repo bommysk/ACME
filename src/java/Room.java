@@ -4,10 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.annotation.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import java.util.List;
+import javax.annotation.PostConstruct;
 
 @Named(value = "room")
 @SessionScoped
@@ -19,6 +21,16 @@ public class Room implements Serializable {
     private String type;
     private Integer roomNumber;
     private Double price;
+    private ArrayList<Integer> allRoomNumbers = new ArrayList<>();
+    private List<Room> roomList;
+
+    public List<Room> getRoomList() {
+        return roomList;
+    }
+
+    public void setRoomList(List<Room> roomList) {
+        this.roomList = roomList;
+    }
     
     public DBConnect getDbConnect() {
         return dbConnect;
@@ -60,21 +72,42 @@ public class Room implements Serializable {
         this.price = price;
     }
     
-     public List<Room> getRoomList() throws SQLException {
+    public ArrayList<Integer> getAllRoomNumbers() {
+        return allRoomNumbers;
+    }
+
+    public void setAllRoomNumbers(ArrayList<Integer> allRoomNumbers) {
+        this.allRoomNumbers = allRoomNumbers;
+    }
+    
+    public void setAllRoomNumbersDefault() {
+        for (int floor_number = 1; floor_number <= 5; floor_number++) {
+            for (int room_number = 1; room_number <= 12; room_number++) {
+                this.allRoomNumbers.add(Integer.parseInt(floor_number + "" + room_number));
+            }
+        }
+        
+        System.out.println(Arrays.toString(allRoomNumbers.toArray()));
+    }
+    
+    public List<Room> generateRoomList() throws SQLException {
 
         Connection con = dbConnect.getConnection();
-
+        ArrayList<Integer> roomNumbers = new ArrayList<>(); // this is used to keep track of pricing
+        
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
-
-        PreparedStatement ps
-                = con.prepareStatement(
-                        "select view, type, room.room_number, price from room join roomprice on room.room_number = roomprice.room_number order by room_number");
+        
+        setAllRoomNumbersDefault();
+        
+        PreparedStatement preparedStatement = con.prepareStatement(
+                    "select view, type, room.room_number, amount from room join roomprice "
+                            + "on room.room_number = roomprice.room_number order by room_number");
 
         //get customer data from database
-        ResultSet result = ps.executeQuery();
-
+        ResultSet result = preparedStatement.executeQuery();
+        
         List<Room> roomList = new ArrayList<>();
 
         while (result.next()) {
@@ -83,16 +116,58 @@ public class Room implements Serializable {
             room.setView(result.getString("view"));
             room.setType(result.getString("type"));
             room.setRoomNumber(result.getInt("room_number"));
-            room.setPrice(result.getDouble("price"));
+            room.setPrice(result.getDouble("amount"));
+            
+            roomNumbers.add(room.getRoomNumber());
             
             //store all data into a List
+            System.out.println("ADDDING HERE");
             roomList.add(room);
+        }
+        
+        // if a price has not been set for the room yet, we want to set a default
+        // price
+        for (Integer rNumber : this.allRoomNumbers) {
+            if (! roomNumbers.contains(rNumber)) {
+                preparedStatement = con.prepareStatement(
+                    "select view, type, room_number from room where room_number = ?");
+
+                //get customer data from database
+                System.out.println("rNumber: " + rNumber);
+
+                preparedStatement.setInt(1, rNumber);
+                result = preparedStatement.executeQuery();
+                
+                while (result.next()) {
+                    Room room = new Room();
+
+                    room.setView(result.getString("view"));
+                    room.setType(result.getString("type"));
+                    room.setRoomNumber(result.getInt("room_number"));
+                    room.setPrice(100.0);
+                    
+                    System.out.println("ADDING: " + room.getRoomNumber());
+
+                    //store all data into a List
+                    roomList.add(room);
+                }
+            }
         }
         
         result.close();
         con.close();
         
         return roomList;
+    }
+    
+    @PostConstruct
+    public void init() {
+        try {
+            this.roomList = generateRoomList();
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
      
     public Integer getNextRoomNumber(String view, String type) throws SQLException {
@@ -114,9 +189,7 @@ public class Room implements Serializable {
         result.next();
         
         roomNum = result.getInt("room_number");
-        
-        System.out.println("select min(room_number) room_number from room where view = " + view + " and type = " + type);
-        
+                
         result.close();
         con.close();
         

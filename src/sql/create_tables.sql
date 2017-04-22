@@ -24,15 +24,33 @@ CREATE TABLE room (
     type           varchar(40) NOT NULL
 );
 
-DROP TABLE IF EXISTS reservation CASCADE;
+DROP TABLE IF EXISTS defaultroomprice CASCADE;
+
+/* This table holds only default room charges. This is what a room
+ * charge defaults to if the reservation is made outside of a changed
+ * price window or no change has been made.
+ */
+
+CREATE TABLE defaultroomprice (
+    room_number    integer NOT NULL PRIMARY KEY,
+    amount         float NOT NULL
+);
+
+ALTER TABLE defaultroomprice 
+   ADD CONSTRAINT fk_room
+   FOREIGN KEY (room_number) 
+   REFERENCES room(room_number)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 DROP TABLE IF EXISTS roomprice CASCADE;
 
 CREATE TABLE roomprice (
     id             serial PRIMARY KEY,
-    room_number        integer NOT NULL,
-    price          float NOT NULL,
-    day            date NOT NULL
+    room_number    integer NOT NULL,
+    amount          float NOT NULL,
+    start_date     date NOT NULL,
+    end_date       date NOT NULL
 );
 
 ALTER TABLE roomprice 
@@ -41,10 +59,12 @@ ALTER TABLE roomprice
    REFERENCES room(room_number)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
+DROP TABLE IF EXISTS reservation CASCADE;
+
 CREATE TABLE reservation (
     id             serial PRIMARY KEY,
     customer_id    integer NOT NULL,
-    room_number        integer NOT NULL,
+    room_number    integer NOT NULL,
     start_date     date NOT NULL,
     end_date       date NOT NULL
 );
@@ -59,6 +79,90 @@ ALTER TABLE reservation
    ADD CONSTRAINT fk_room
    FOREIGN KEY (room_number) 
    REFERENCES room(room_number)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+DROP TABLE IF EXISTS bill CASCADE;
+
+/* This table holds a mapping of all reservations to their
+ * associated charges. Each charge has it's own tuple. The
+ * charge price is replicated in the chargeprice table to 
+ * preserve the reserved price.
+ */
+
+CREATE TABLE bill (
+    id              serial PRIMARY KEY,
+    reservation_id  integer NOT NULL,
+    chargeprice_id       integer NOT NULL
+);
+
+ALTER TABLE bill
+   ADD CONSTRAINT fk_reservation
+   FOREIGN KEY (reservation_id) 
+   REFERENCES reservation(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE bill
+   ADD CONSTRAINT fk_chargeprice
+   FOREIGN KEY (chargeprice_id) 
+   REFERENCES chargeprice(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+DROP TABLE IF EXISTS defaultcharge CASCADE;
+
+/* This table holds all types of charges (room, wifi, etc.)
+ * and the default price for each charge. This is what a charge
+ * defaults to if the reservation is made outside of a changed
+ * price window.
+ */
+
+CREATE TABLE defaultcharge (
+    id              serial PRIMARY KEY,
+    type            varchar(100) NOT NULL,
+    amount          float NOT NULL
+);
+
+DROP TABLE IF EXISTS charge CASCADE;
+
+/* This table holds all types of charges (room, wifi, etc.)
+ * and the range of time that price holds before going back
+ * to the default price. This table can be altered by admins
+ * when prices change.
+ */
+
+CREATE TABLE charge (
+    id               serial PRIMARY KEY,
+    type             varchar(100) NOT NULL,
+    amount           float NOT NULL,
+    start_date       date NOT NULL,
+    end_date         date NOT NULL,
+    defaultcharge_id integer NOT NULL
+);
+
+ALTER TABLE charge
+   ADD CONSTRAINT fk_defaultcharge
+   FOREIGN KEY (defaultcharge_id) 
+   REFERENCES defaultcharge(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+DROP TABLE IF EXISTS chargeprice CASCADE;
+
+/* This table preserves the charge price per resrvation
+ * so changing prices have not impact. The charge_id is
+ * used to retrieve the price to preserve for the reservation
+ * as well as the type of charge.
+ */
+
+CREATE TABLE chargeprice (
+    id             serial PRIMARY KEY,
+    charge_id      integer NOT NULL,
+    price          float NOT NULL,
+    day            date NOT NULL
+);
+
+ALTER TABLE chargeprice
+   ADD CONSTRAINT fk_charge
+   FOREIGN KEY (charge_id) 
+   REFERENCES charge(id)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS employee CASCADE;

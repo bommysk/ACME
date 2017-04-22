@@ -6,13 +6,17 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
     <title>New Customer</title>
+    
     <h:head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="css/styles.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </h:head>
+    
     <h:body>
         <templates:navigation/>
         
@@ -102,14 +106,14 @@
                         </div>
                         
                         <div class="form-group">
-                            <label>Expiration Date:</label> <h:inputText value="#{customer.expirationDate}" required="true"
-                                               requiredMessage="Expiration Date Required."
-                                               converterMessage="Illegal date (should be mm/dd/yyyy)"
-                                               id="expirationDate"
-                                               class="form-control"
-                                               a:placeholder="Expiration Date">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
-                            </h:inputText>
+                            <label>Expiration Date:</label> 
+                            
+                            <h:inputText styleClass="datepicker" value="#{customer.expirationDate}"
+                                         required="true"
+                                         requiredMessage="Expiration Date Required."
+                                         id="expirationDate"
+                                         class="form-control"
+                                         a:placeholder="Expiration Date"/>
                             <h:message for="expirationDate" style="color:red; margin:8px;"/>
                         </div>
                         
@@ -128,6 +132,17 @@
                 </div>
             </div>
         </div>
+        
+         <script type="text/javascript">
+            
+            //For calendar
+            $(".datepicker").datepicker({
+                inline: true,
+                showWeek: true,
+                firstDay: 1
+            });
+
+        </script>
     </h:body>
 </html>
 

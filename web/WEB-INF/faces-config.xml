@@ -162,11 +162,33 @@
             <from-outcome>reservation</from-outcome>
             <to-view-id>/secured/newReservation.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>showreservations</from-outcome>
+            <to-view-id>/secured/showReservations.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
         <from-view-id>
             /secured/newReservation.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employeeLogin</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /secured/showReservations.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>

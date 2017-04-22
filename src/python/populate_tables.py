@@ -14,18 +14,25 @@ def insert_rooms():
 	floor_range = 5
 
 	cursor.execute("DELETE FROM room");
+	cursor.execute("DELETE FROM defaultroomprice");
 
 	# insert ocean rooms
 	for floor in range(floor_range):
 		for room in range(ocean_view_room_range):
 			room_number = (int(str(floor + 1) + str(room + 1)))
 
-			if (room + 1) % 2 == 0:
+			if room_number % 2 == 0:
 				print("inserting", room_number)
 				cursor.execute(
 				     """INSERT INTO room (room_number, view, type)
 				        VALUES (%s, %s, %s);""",
 				    (room_number, "ocean", "double queen"))
+
+				cursor.execute(
+				     """INSERT INTO defaultroomprice (room_number, amount)
+				        VALUES (%s, %s);""",
+				    (room_number, 100))
+
 			else:
 				print("inserting", room_number)
 				cursor.execute(
@@ -33,42 +40,62 @@ def insert_rooms():
 				        VALUES (%s, %s, %s);""",
 				    (room_number, "ocean", "single king"))
 
-	print("Pool Rooms")
+				cursor.execute(
+				     """INSERT INTO defaultroomprice (room_number, amount)
+				        VALUES (%s, %s);""",
+				    (room_number, 100))
 
 	for floor in range(floor_range):
 		for room in range(ocean_view_room_range, pool_view_room_range):
 			room_number = (int(str(floor + 1) + str(room + 1)))
 
-			if (room + 1) % 2 == 0:
+			if room_number % 2 == 0:
 				print("inserting", room_number)
 				cursor.execute(
 				     """INSERT INTO room (room_number, view, type)
 				        VALUES (%s, %s, %s);""",
 				    (room_number, "pool", "double queen"))
+
+				cursor.execute(
+				     """INSERT INTO defaultroomprice (room_number, amount)
+				        VALUES (%s, %s);""",
+				    (room_number, 100))
 			else:
 				print("inserting", room_number)
 				cursor.execute(
 				    """INSERT INTO room (room_number, view, type)
 				        VALUES (%s, %s, %s);""",
 				    (room_number, "pool", "single king"))
+
+				cursor.execute(
+				     """INSERT INTO defaultroomprice (room_number, amount)
+				        VALUES (%s, %s);""",
+				    (room_number, 100))
+
 	
 	conn.commit()
 	conn.close()
 
-def insert_room_prices():
+def insert_default_prices():
 	conn, cursor = db_connection()
 
-	room_range = 12
-	floor_range = 5
+	cursor.execute("DELETE FROM defaultcharge");
 
-	for floor in range(floor_range):
-		for room in range(room_range):
-			room_number = (int(str(floor + 1) + str(room + 1)))
+	cursor.execute("""INSERT INTO defaultcharge (type, amount)
+				        VALUES (%s, %s);""",
+				    ("wifi", 10))
 
-			cursor.execute(
-				    """INSERT INTO roomprice (room_number, price, day)
-				        VALUES (%s, %s, %s);""",
-				    (room_number, 100, "04/20/2017"))
+	cursor.execute("""INSERT INTO defaultcharge (type, amount)
+				        VALUES (%s, %s);""",
+				    ("parking", 15))
+
+	cursor.execute("""INSERT INTO defaultcharge (type, amount)
+				        VALUES (%s, %s);""",
+				    ("fridge_drinks", 5))
+
+	cursor.execute("""INSERT INTO defaultcharge (type, amount)
+				        VALUES (%s, %s);""",
+				    ("breakfast", 15))
 
 	conn.commit()
 	conn.close()
@@ -92,4 +119,4 @@ def db_connection():
 
 if __name__ == "__main__":
 	insert_rooms()
-	insert_room_prices()
+	insert_default_prices()
