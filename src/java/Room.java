@@ -85,9 +85,7 @@ public class Room implements Serializable {
             for (int room_number = 1; room_number <= 12; room_number++) {
                 this.allRoomNumbers.add(Integer.parseInt(floor_number + "" + room_number));
             }
-        }
-        
-        System.out.println(Arrays.toString(allRoomNumbers.toArray()));
+        }        
     }
     
     public List<Room> generateRoomList() throws SQLException {
@@ -120,8 +118,6 @@ public class Room implements Serializable {
             
             roomNumbers.add(room.getRoomNumber());
             
-            //store all data into a List
-            System.out.println("ADDDING HERE");
             roomList.add(room);
         }
         
@@ -131,9 +127,6 @@ public class Room implements Serializable {
             if (! roomNumbers.contains(rNumber)) {
                 preparedStatement = con.prepareStatement(
                     "select view, type, room_number from room where room_number = ?");
-
-                //get customer data from database
-                System.out.println("rNumber: " + rNumber);
 
                 preparedStatement.setInt(1, rNumber);
                 result = preparedStatement.executeQuery();
@@ -146,8 +139,6 @@ public class Room implements Serializable {
                     room.setRoomNumber(result.getInt("room_number"));
                     room.setPrice(100.0);
                     
-                    System.out.println("ADDING: " + room.getRoomNumber());
-
                     //store all data into a List
                     roomList.add(room);
                 }

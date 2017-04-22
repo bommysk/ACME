@@ -7,7 +7,7 @@
       xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     
-    <title>Delete Customer</title>
+    <title>Checkin Customer</title>
     <h:head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/styles.css" rel="stylesheet" type="text/css" />
@@ -20,7 +20,7 @@
         
         <div class="container col-md-6 col-md-offset-3">
                 
-            <h1 class="text-center">Delete Customer Account</h1>
+            <h1 class="text-center">Checkin Customer</h1>
 
             <div class="panel panel-primary">
                 
@@ -41,7 +41,7 @@
                             <h:message for="login" style="color:red;margin:8px;"/>
                         </div>
                         
-                        <h:commandButton value="Delete" class="btn btn-danger" action="#{customer.deleteCustomer}">
+                        <h:commandButton value="Checkin" class="btn btn-danger" action="#{customer.checkin}">
                         </h:commandButton>
                         
                     </h:form>

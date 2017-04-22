@@ -184,6 +184,20 @@ VALUES(1, 'skahal', 'password', 'Shubham', 'Kahal', 'shubhamkahal@acme.com', '12
 
 DROP TABLE IF EXISTS reward CASCADE;
 
+CREATE TABLE checkin (
+    id serial PRIMARY KEY,
+    customer_id integer NOT NULL,
+    checkin_date date NOT NULL
+);
+
+ALTER TABLE checkin 
+   ADD CONSTRAINT fk_customer
+   FOREIGN KEY (customer_id) 
+   REFERENCES customer(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
+
+DROP TABLE IF EXISTS reward CASCADE;
+
 CREATE TABLE reward (
     id            serial PRIMARY KEY,
     customer_id   integer NOT NULL,

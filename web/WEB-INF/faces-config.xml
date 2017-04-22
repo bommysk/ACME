@@ -258,6 +258,14 @@
             <from-outcome>changepassword</from-outcome>
             <to-view-id>/employee/changePassword.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>checkincustomer</from-outcome>
+            <to-view-id>/employee/checkinCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>checkedincustomers</from-outcome>
+            <to-view-id>/employee/checkedinCustomers.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule> 
     
     <navigation-rule>

@@ -47,6 +47,7 @@ public class Customer implements Serializable {
     private Date expirationDate;
     private Integer cvvNumber;
     private Date createdDate = new Date();
+    private Date checkinDate = new Date();
     
     public DBConnect getDbConnect() {
         return dbConnect;
@@ -143,6 +144,14 @@ public class Customer implements Serializable {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         this.createdDate = created_date;
     }
+    
+    public Date getCheckinDate() {
+        return checkinDate;
+    }
+
+    public void setCheckinDate(Date checkinDate) {
+        this.checkinDate = checkinDate;
+    }
 
     public String createCustomer() throws SQLException, ParseException {
         Connection con = dbConnect.getConnection();
@@ -150,6 +159,7 @@ public class Customer implements Serializable {
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
+        
         con.setAutoCommit(false);
 
         Statement statement = con.createStatement();
@@ -183,16 +193,14 @@ public class Customer implements Serializable {
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
+        
         con.setAutoCommit(false);
-
-        Statement statement = con.createStatement();
         
         PreparedStatement preparedStatement = con.prepareStatement("delete from customer where login = ?");
-        preparedStatement.setString(1, customerLogin);
         
+        preparedStatement.setString(1, customerLogin);
         preparedStatement.executeUpdate();
 
-        statement.close();
         con.commit();
         con.close();
                 
@@ -230,7 +238,7 @@ public class Customer implements Serializable {
         con.close();
     }
     
-    public void validateDeleteLogin(FacesContext context, UIComponent component, Object value)
+    public void validateLoginExistence(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
         
         Connection con = dbConnect.getConnection();
@@ -243,7 +251,7 @@ public class Customer implements Serializable {
         
         con.setAutoCommit(false);
 
-        PreparedStatement preparedStatement = con.prepareStatement("Select count(*) as count from customer where login = ?");
+        PreparedStatement preparedStatement = con.prepareStatement("select count(*) as count from customer where login = ?");
         preparedStatement.setString(1, submittedLogin);
         
         ResultSet result = preparedStatement.executeQuery();
@@ -268,13 +276,15 @@ public class Customer implements Serializable {
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
+        
+        con.setAutoCommit(false);
 
-        PreparedStatement ps
+        PreparedStatement preparedStatement
                 = con.prepareStatement(
                         "select login, first_name, last_name, email, postal_address, created_date from customer order by first_name, last_name");
 
         //get customer data from database
-        ResultSet result = ps.executeQuery();
+        ResultSet result = preparedStatement.executeQuery();
 
         List<Customer> custList = new ArrayList<>();
 
@@ -293,6 +303,67 @@ public class Customer implements Serializable {
         }
         
         result.close();
+        con.close();
+        
+        return custList;
+    }
+    
+    public String checkin() throws SQLException {
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        PreparedStatement preparedStatement = con.prepareStatement("insert into checkin(customer_id, checkin_date) values((select id from customer where login = ?), ?)");
+        
+        preparedStatement.setString(1, customerLogin);
+        preparedStatement.setDate(2, new java.sql.Date(checkinDate.getTime()));
+        
+        preparedStatement.executeUpdate();
+
+        con.commit();
+        con.close();
+        
+        return "/employee/employeeDashboard.xhtml";
+    }
+    
+    public List<Customer> getCheckedInCustomerList() throws SQLException {
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+
+        PreparedStatement preparedStatement
+                = con.prepareStatement(
+                        "select login, first_name, last_name, email, postal_address, checkin_date from "
+                                + "customer join checkin on customer.id = checkin.customer_id order by checkin_date");
+        
+        //get customer data from database
+        ResultSet result = preparedStatement.executeQuery();
+
+        List<Customer> custList = new ArrayList<>();
+
+        while (result.next()) {
+            Customer cust = new Customer();
+
+            cust.setCustomerLogin(result.getString("login"));
+            cust.setFirstName(result.getString("first_name"));
+            cust.setLastName(result.getString("last_name"));
+            cust.setEmail(result.getString("email"));
+            cust.setPostalAddress(result.getString("postal_address"));
+            cust.setCheckinDate(result.getDate("checkin_date"));
+
+            //store all data into a List
+            custList.add(cust);
+        }
+        
+        con.commit();
         con.close();
         
         return custList;
