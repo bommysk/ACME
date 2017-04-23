@@ -70,8 +70,8 @@ public class Bill implements Serializable {
         
         con.setAutoCommit(false);
         
-        PreparedStatement preparedStatement = con.prepareStatement("insert into bill(reservation_id, chargeprice_id, bill_date) "
-                + "values(?, (select id from charge where type = ?), ?)");
+        PreparedStatement preparedStatement = con.prepareStatement("insert into bill(reservation_id, defaultcharge_id, bill_date) "
+                + "values(?, (select id from defaultcharge where type = ?), ?)");
         
         preparedStatement.setInt(1, reservationID);
         preparedStatement.setString(2, chargeType);

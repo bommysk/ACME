@@ -445,7 +445,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>employee</from-outcome>
@@ -501,7 +501,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>employee</from-outcome>
@@ -522,7 +522,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>employee</from-outcome>
@@ -543,7 +543,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>employee</from-outcome>
@@ -561,7 +561,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>employee</from-outcome>
@@ -596,7 +596,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>employee</from-outcome>
@@ -614,7 +614,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>admin</from-outcome>
-            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>employee</from-outcome>

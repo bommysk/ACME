@@ -79,8 +79,6 @@ public class Charge implements Serializable {
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
         Date newDate = startDate;
-        
-        System.out.println("BEFORE WHILE LOOP");
 
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -115,7 +113,6 @@ public class Charge implements Serializable {
             System.out.println(endDate);
         }
 
-         System.out.println("AFTER WHILE LOOP");
         con.commit();
         con.close();
         

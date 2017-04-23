@@ -4,7 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
     <h:head>
-        <title>Customer Dashboard</title>
+        <title>Employee Dashboard</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/styles.css" rel="stylesheet" type="text/css" />
         
@@ -18,48 +18,80 @@
         <div class="container-fluid">
             <h1>Employee Dashboard</h1>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading"><strong>View Reservations</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="showallreservations" class="text-primary" /></div>
-            </div>
+            <div class="row">
+            
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><strong>View Reservations</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="showallreservations" class="text-primary" /></div>
+                    </div>
+                </div>
 
-            <div class="panel panel-info">
-                <div class="panel-heading"><strong>View Customers</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="showallcustomers" class="text-info" /></div>
-            </div>
+                <div class="col-md-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><strong>View Customers</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="showallcustomers" class="text-info" /></div>
+                    </div>
+                </div>
+                
+            </div>    
+            
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading"><strong>Change Password</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="changepassword" class="text-warning" /></div>
+                    </div>
+                </div>
 
-            <div class="panel panel-warning">
-                <div class="panel-heading"><strong>Change Password</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="changepassword" class="text-warning" /></div>
+                <div class="col-md-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><strong>Add Customer</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="newcustomer" class="text-success" /></div>
+                    </div>
+                </div>
+                
             </div>
+            
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading"><strong>Delete Customer</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="deletecustomer" class="text-danger" /></div>
+                    </div>
+                </div>
 
-            <div class="panel panel-success">
-                <div class="panel-heading"><strong>Add Customer</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="newcustomer" class="text-success" /></div>
+                <div class="col-md-6">
+                    <div class="panel panel-default" style="border-color:#CCF2EC">
+                        <div class="panel-heading" style="background-color:#CCF2EC"><strong>View Room Prices</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="showallrooms" class="text-info" /></div>
+                    </div>
+                </div>
+                
             </div>
             
-            <div class="panel panel-danger">
-                <div class="panel-heading"><strong>Delete Customer</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="deletecustomer" class="text-danger" /></div>
+            <div class="row">
+            
+                <div class="col-md-6">
+                    <div class="panel panel-default" style="border-color:#E29DFB">
+                        <div class="panel-heading" style="background-color:#E29DFB"><strong>Check In Customer</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="checkincustomer" class="text-info" /></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="panel panel-default" style="border-color:#45AA79">
+                        <div class="panel-heading" style="background-color:#45AA79"><strong>Checked In Customers</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="checkedincustomers" class="text-info" /></div>
+                    </div>
+                </div>
+                
             </div>
             
-            <div class="panel panel-danger">
-                <div class="panel-heading"><strong>View Room Prices</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="showallrooms" class="text-info" /></div>
-            </div>
-            
-            <div class="panel panel-danger">
-                <div class="panel-heading"><strong>Check In Customer</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="checkincustomer" class="text-info" /></div>
-            </div>
-            
-            <div class="panel panel-danger">
-                <div class="panel-heading"><strong>Checked In Customers</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="checkedincustomers" class="text-info" /></div>
-            </div>
-            
-            <div class="panel panel-danger">
-                <div class="panel-heading"><strong>Build Bill</strong></div>
+            <div class="panel panel-default" style="border-color:#458BAA">
+                <div class="panel-heading" style="background-color:#458BAA"><strong>Build Bill</strong></div>
                 <div class="panel-body"><h:link value="Go" outcome="buildbill" class="text-info" /></div>
             </div>
         </div>

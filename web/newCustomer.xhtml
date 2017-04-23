@@ -84,14 +84,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Postal Address:</label> <h:inputText value="#{customer.postalAddress}" required="true"
-                                                                requiredMessage="Your must enter your postal address."
-                                                                validatorMessage="The postal address must be at least five characters."
-                                                                id="userAddress"
-                                                                class="form-control"
-                                                                a:placeholder="Postal Address">
-                                                    <f:validateLength minimum="5"/>
-                                                    </h:inputText>
+                            <label>Postal Address:</label> 
+                            <h:inputText value="#{customer.postalAddress}" required="true"
+                                        requiredMessage="Your must enter your postal address."
+                                        validatorMessage="The postal address must be at least five characters."
+                                        id="userAddress"
+                                        class="form-control"
+                                        a:placeholder="Postal Address">
+                                <f:validateLength minimum="5"/>
+                            </h:inputText>
                             <h:message for="userAddress" style="color:red;margin:8px;"/>
                         </div>
                         
@@ -113,7 +114,7 @@
                                                id="expirationDate"
                                                class="datepicker form-control"
                                                a:placeholder="Expiration Date">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                <f:convertDateTime pattern="MM/dd/yyyy"/>
                             </h:inputText>
                             <h:message for="expirationDate" style="color:red; margin:8px;"/>
                         </div>

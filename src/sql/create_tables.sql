@@ -92,7 +92,7 @@ DROP TABLE IF EXISTS bill CASCADE;
 CREATE TABLE bill (
     id              serial PRIMARY KEY,
     reservation_id  integer NOT NULL,
-    chargeprice_id  integer NOT NULL,
+    defaultcharge_id  integer NOT NULL,
     bill_date       date NOT NULL
 );
 
@@ -103,9 +103,9 @@ ALTER TABLE bill
    ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE bill
-   ADD CONSTRAINT fk_chargeprice
-   FOREIGN KEY (chargeprice_id) 
-   REFERENCES chargeprice(id)
+   ADD CONSTRAINT fk_defaultcharge
+   FOREIGN KEY (defaultcharge_id) 
+   REFERENCES defaultcharge(id)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS defaultcharge CASCADE;
