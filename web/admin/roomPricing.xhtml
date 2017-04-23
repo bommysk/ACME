@@ -21,46 +21,49 @@
         
         <div class="container col-md-6 col-md-offset-3">
                 
-            <h1 class="text-center">Employees</h1>
+            <h1 class="text-center">Rooms</h1>
          
-            <h:dataTable value="#{employee.getEmployeeList()}" var="emp" border="1" style="width:100%"
-                        styleClass="table table-striped table-inverse" id="employee_table">
+            <h:dataTable value="#{room.getRoomList()}" var="room" border="1" style="width:100%"
+                        styleClass="table table-striped table-inverse" id="rooms_table">
                 <h:column>
-                    <f:facet name="header"> Admin </f:facet>
-                        #{emp.isAdmin}
+                    <f:facet name="header"> View </f:facet>
+                        #{room.view}
                 </h:column>
                 
                 <h:column>
-                    <f:facet name="header"> Login </f:facet>
-                        #{emp.employeeLogin}
+                    <f:facet name="header"> Type </f:facet>
+                        #{room.type}
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header"> Name </f:facet>
-                        #{emp.firstName.concat(" ".concat(emp.lastName))}
+                    <f:facet name="header"> Room Number </f:facet>
+                        #{room.roomNumber}
                 </h:column>
-
+                
                 <h:column>
-                    <f:facet name="header"> Email </f:facet>
-                        #{emp.email}
+                    <f:facet name="header"> Price </f:facet>
+                        #{room.price}
                 </h:column>
-
+                
                 <h:column>
-                    <f:facet name="header"> Postal Address </f:facet>
-                        #{emp.postalAddress}
+                    <f:facet name="header"> Start Date </f:facet>
+                        
                 </h:column>
-
+                
                 <h:column>
-                    <f:facet name="header">Created Date</f:facet>
-                        #{emp.createdDate}
+                    <f:facet name="header"> End Date </f:facet>
+                       
                 </h:column>
+                
             </h:dataTable>
             
-            <script>
-                $(document).ready( function () {
-                    $('#employee_table').DataTable();
-                } );
-            </script>
         </div>
+        
+        <script>
+            $(document).ready( function () {
+                $('#rooms_table').DataTable();
+            } );
+        </script>
+        
     </h:body>
 </html>

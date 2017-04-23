@@ -471,6 +471,10 @@
             <from-outcome>addcharges</from-outcome>
             <to-view-id>/admin/addCharges.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>setroompricing</from-outcome>
+            <to-view-id>/admin/roomPricing.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule> 
      
     <navigation-rule>
@@ -589,6 +593,24 @@
     <navigation-rule>
         <from-view-id>
             /admin/changePassword.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+    
+    <navigation-rule>
+        <from-view-id>
+            /admin/roomPricing.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>

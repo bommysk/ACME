@@ -185,4 +185,8 @@ public class Room implements Serializable {
         
         return roomNum;
     }
+    
+    public void setRoomPrice() {
+        System.out.println("Setting room price.");
+    }
 }
