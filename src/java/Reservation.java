@@ -16,6 +16,7 @@ import javax.inject.Named;
 public class Reservation implements Serializable {
 
     private DBConnect dbConnect = new DBConnect();
+    private Integer reservationID;
     private Integer roomNumber;
     private String view;
     private String type;
@@ -23,6 +24,14 @@ public class Reservation implements Serializable {
     private String endDate;
     private Double price;
 
+    public Integer getReservationID() {
+        return reservationID;
+    }
+
+    public void setReservationID(Integer reservationID) {
+        this.reservationID = reservationID;
+    }
+    
     public Integer getRoomNumber() {
         return roomNumber;
     }
@@ -114,7 +123,45 @@ public class Reservation implements Serializable {
 
         PreparedStatement preparedStatement
                 = con.prepareStatement(
-                        "select reservation.room_number, view, type, start_date, end_date from reservation join room "
+                        "select id, reservation.room_number, view, type, start_date, end_date from reservation join room "
+                                + "on reservation.room_number = room.room_number order by start_date");
+        
+        //get customer data from database
+        ResultSet result = preparedStatement.executeQuery();
+
+        List<Reservation> reservationList = new ArrayList<>();
+
+        while (result.next()) {
+            Reservation reservation = new Reservation();
+            
+            reservation.setReservationID(result.getInt("id"));
+            reservation.setRoomNumber(result.getInt("room_number"));
+            reservation.setView(result.getString("view"));
+            reservation.setType(result.getString("type"));
+            reservation.setStartDate(result.getString("start_date"));
+            reservation.setEndDate(result.getString("end_date"));
+   
+            //store all data into a List
+            reservationList.add(reservation);
+        }
+        
+        result.close();
+        con.close();
+        
+        return reservationList;
+    }
+    
+    public List<Reservation> getSpecificCustomerReservationList() throws SQLException {
+
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement preparedStatement
+                = con.prepareStatement(
+                        "select id, reservation.room_number, view, type, start_date, end_date from reservation join room "
                                 + "on reservation.room_number = room.room_number where "
                                 + "customer_id = (select id from customer where login = ?) order by start_date");
 
@@ -128,6 +175,7 @@ public class Reservation implements Serializable {
         while (result.next()) {
             Reservation reservation = new Reservation();
             
+            reservation.setReservationID(result.getInt("id"));
             reservation.setRoomNumber(result.getInt("room_number"));
             reservation.setView(result.getString("view"));
             reservation.setType(result.getString("type"));

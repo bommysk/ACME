@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
+    <title>Build Bill</title>
+    
+    <h:head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/styles.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </h:head>
+    
+    <h:body>
+        <templates:employeeNavigation/>
+        
+        <div class="container col-md-6 col-md-offset-3">
+                
+            <h1 class="text-center">Add Charge To Bill</h1>
+
+            <div class="panel panel-primary">
+                
+                <div class="panel-heading"></div>
+
+                <div class="panel-body">
+
+                    <h:form>
+                        
+                        <div class="form-group">
+                            <label>Reservation Id:</label> 
+                            <h:inputText value="#{bill.reservationID}" required="true"
+                                                        requiredMessage="Your must enter the reservation id."
+                                                        id="reservationid"
+                                                        class="form-control"
+                                                        a:placeholder="Type" />
+                            <h:message for="reservationid" style="color:red;margin:8px;"/>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label style="margin-right:5px">Charge:</label>
+                            <h:selectOneMenu value="#{bill.chargeType}">
+                                <f:selectItems value="#{charge.chargeTypes}" />
+                            </h:selectOneMenu>
+                        </div>
+                            
+                        <h:commandButton value="Add Charge" class="btn btn-primary" action="#{bill.addToBill}" />
+    
+                    </h:form>
+                    
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+</html>
+

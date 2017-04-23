@@ -19,8 +19,8 @@
             <h1>Employee Dashboard</h1>
 
             <div class="panel panel-primary">
-                <div class="panel-heading"><strong>Manage Reservations</strong></div>
-                <div class="panel-body">Panel Content</div>
+                <div class="panel-heading"><strong>View Reservations</strong></div>
+                <div class="panel-body"><h:link value="Go" outcome="showallreservations" class="text-primary" /></div>
             </div>
 
             <div class="panel panel-info">
@@ -35,13 +35,12 @@
 
             <div class="panel panel-success">
                 <div class="panel-heading"><strong>Add Customer</strong></div>
-                <div class="panel-body">Panel Content</div>
+                <div class="panel-body"><h:link value="Go" outcome="newcustomer" class="text-success" /></div>
             </div>
             
             <div class="panel panel-danger">
                 <div class="panel-heading"><strong>Delete Customer</strong></div>
                 <div class="panel-body"><h:link value="Go" outcome="deletecustomer" class="text-danger" /></div>
-
             </div>
             
             <div class="panel panel-danger">
@@ -57,6 +56,11 @@
             <div class="panel panel-danger">
                 <div class="panel-heading"><strong>Checked In Customers</strong></div>
                 <div class="panel-body"><h:link value="Go" outcome="checkedincustomers" class="text-info" /></div>
+            </div>
+            
+            <div class="panel panel-danger">
+                <div class="panel-heading"><strong>Build Bill</strong></div>
+                <div class="panel-body"><h:link value="Go" outcome="buildbill" class="text-info" /></div>
             </div>
         </div>
     </h:body>

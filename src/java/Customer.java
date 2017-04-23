@@ -187,6 +187,12 @@ public class Customer implements Serializable {
         return "index";
     }
     
+    public String createCustomerEmployee()throws SQLException, ParseException {
+        createCustomer();
+        
+        return "/employee/employeeDashboard.xhtml";
+    }
+    
     public String deleteCustomer() throws SQLException, ParseException {
         Connection con = dbConnect.getConnection();
 

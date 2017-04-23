@@ -52,6 +52,16 @@
         <managed-bean-class>Reservation</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>  
+    <managed-bean>
+        <managed-bean-name>bill</managed-bean-name>
+        <managed-bean-class>Bill</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
+    <managed-bean>
+        <managed-bean-name>charge</managed-bean-name>
+        <managed-bean-class>Charge</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
     
     <navigation-rule>
         <from-view-id>
@@ -243,6 +253,10 @@
             <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>showallreservations</from-outcome>
+            <to-view-id>/employee/showAllReservations.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>showallrooms</from-outcome>
             <to-view-id>/employee/showAllRooms.xhtml</to-view-id>
         </navigation-case>
@@ -265,6 +279,32 @@
         <navigation-case>
             <from-outcome>checkedincustomers</from-outcome>
             <to-view-id>/employee/checkedinCustomers.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newcustomer</from-outcome>
+            <to-view-id>/employee/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>buildbill</from-outcome>
+            <to-view-id>/employee/buildBill.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /employee/showAllReservations.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     
@@ -320,7 +360,80 @@
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
+    </navigation-rule>
+    
+     
+    <navigation-rule>
+        <from-view-id>
+            /employee/checkinCustomer.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /employee/checkedinCustomers.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+    
+      <navigation-rule>
+        <from-view-id>
+            /employee/newCustomer.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /employee/buildBill.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>   
     
     <navigation-rule>
         <from-view-id>
@@ -353,6 +466,10 @@
         <navigation-case>
             <from-outcome>changepassword</from-outcome>
             <to-view-id>/admin/changePassword.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>addcharges</from-outcome>
+            <to-view-id>/admin/addCharges.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
      
@@ -433,6 +550,25 @@
             <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /admin/addCharges.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employee</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
     <navigation-rule>
         <from-view-id>
             /employee/index.xhtml

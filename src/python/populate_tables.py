@@ -91,7 +91,7 @@ def insert_default_prices():
 
 	cursor.execute("""INSERT INTO defaultcharge (type, amount)
 				        VALUES (%s, %s);""",
-				    ("fridge_drinks", 5))
+				    ("fridge drinks", 5))
 
 	cursor.execute("""INSERT INTO defaultcharge (type, amount)
 				        VALUES (%s, %s);""",

@@ -48,9 +48,8 @@ DROP TABLE IF EXISTS roomprice CASCADE;
 CREATE TABLE roomprice (
     id             serial PRIMARY KEY,
     room_number    integer NOT NULL,
-    amount          float NOT NULL,
-    start_date     date NOT NULL,
-    end_date       date NOT NULL
+    amount         float NOT NULL,
+    day            date NOT NULL
 );
 
 ALTER TABLE roomprice 
@@ -83,16 +82,18 @@ ALTER TABLE reservation
 
 DROP TABLE IF EXISTS bill CASCADE;
 
-/* This table holds a mapping of all reservations to their
- * associated charges. Each charge has it's own tuple. The
- * charge price is replicated in the chargeprice table to 
- * preserve the reserved price.
+/* This table holds the bill information mapping charges
+ * to the respective reservation. The bill_date is an
+ * important field that allows original charges to be
+ * preserved. There is a separate tuple for each charge
+ * to a reservation.
  */
 
 CREATE TABLE bill (
     id              serial PRIMARY KEY,
     reservation_id  integer NOT NULL,
-    chargeprice_id       integer NOT NULL
+    chargeprice_id  integer NOT NULL,
+    bill_date       date NOT NULL
 );
 
 ALTER TABLE bill
@@ -117,7 +118,7 @@ DROP TABLE IF EXISTS defaultcharge CASCADE;
 
 CREATE TABLE defaultcharge (
     id              serial PRIMARY KEY,
-    type            varchar(100) NOT NULL,
+    type            varchar(100) NOT NULL UNIQUE,
     amount          float NOT NULL
 );
 
@@ -133,8 +134,7 @@ CREATE TABLE charge (
     id               serial PRIMARY KEY,
     type             varchar(100) NOT NULL,
     amount           float NOT NULL,
-    start_date       date NOT NULL,
-    end_date         date NOT NULL,
+    day              date NOT NULL,
     defaultcharge_id integer NOT NULL
 );
 
@@ -142,27 +142,6 @@ ALTER TABLE charge
    ADD CONSTRAINT fk_defaultcharge
    FOREIGN KEY (defaultcharge_id) 
    REFERENCES defaultcharge(id)
-   ON DELETE CASCADE ON UPDATE CASCADE;
-
-DROP TABLE IF EXISTS chargeprice CASCADE;
-
-/* This table preserves the charge price per resrvation
- * so changing prices have not impact. The charge_id is
- * used to retrieve the price to preserve for the reservation
- * as well as the type of charge.
- */
-
-CREATE TABLE chargeprice (
-    id             serial PRIMARY KEY,
-    charge_id      integer NOT NULL,
-    price          float NOT NULL,
-    day            date NOT NULL
-);
-
-ALTER TABLE chargeprice
-   ADD CONSTRAINT fk_charge
-   FOREIGN KEY (charge_id) 
-   REFERENCES charge(id)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS employee CASCADE;
@@ -182,7 +161,7 @@ CREATE TABLE employee (
 INSERT INTO employee(is_admin, login, password, first_name, last_name, email, postal_address, created_date)
 VALUES(1, 'skahal', 'password', 'Shubham', 'Kahal', 'shubhamkahal@acme.com', '123 Main Street', '04/20/2017');
 
-DROP TABLE IF EXISTS reward CASCADE;
+DROP TABLE IF EXISTS checkin CASCADE;
 
 CREATE TABLE checkin (
     id serial PRIMARY KEY,
