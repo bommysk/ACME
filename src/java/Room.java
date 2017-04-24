@@ -3,13 +3,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import javax.annotation.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -28,6 +26,7 @@ public class Room implements Serializable {
     private Float amount;
     private Date startDate;
     private Date endDate;
+    private Date day;
     private ArrayList<Integer> allRoomNumbers = new ArrayList<>();
     private List<Room> roomList;
     private Room selectedRoom;
@@ -102,6 +101,16 @@ public class Room implements Serializable {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    public Date getDay() {
+        return day;
+    }
+
+    public void setDay(Date day) {
+        this.day = day;
+    }
+    
+    
     
     public ArrayList<Integer> getAllRoomNumbers() {
         return allRoomNumbers;
@@ -139,7 +148,7 @@ public class Room implements Serializable {
         setAllRoomNumbersDefault();
         
         PreparedStatement preparedStatement = con.prepareStatement(
-                    "select view, type, room.room_number, amount from room join roomprice "
+                    "select view, type, room.room_number, amount, day from room join roomprice "
                             + "on room.room_number = roomprice.room_number order by room_number");
 
         //get customer data from database
@@ -154,6 +163,11 @@ public class Room implements Serializable {
             room.setType(result.getString("type"));
             room.setRoomNumber(result.getInt("room_number"));
             room.setAmount(result.getFloat("amount"));
+            room.setDay(result.getDate("day"));
+            
+            System.out.println("ADDING ROOMs");
+            System.out.println(result.getInt("room_number"));
+            System.out.println(new Date());
             
             roomNumbers.add(room.getRoomNumber());
             
@@ -179,8 +193,8 @@ public class Room implements Serializable {
                     room.setAmount(new Float(100.0));
                     room.setStartDate(new SimpleDateFormat("MM/dd/yyyy" ).parse("01/01/1900"));
                     room.setEndDate(new SimpleDateFormat("MM/dd/yyyy" ).parse("01/01/2900" ));
-
                     //store all data into a List
+                    System.out.println("ADDING ROOM");
                     roomList.add(room);
                 }
             }
@@ -264,7 +278,7 @@ public class Room implements Serializable {
         this.selectedRoom = r;
     }
     
-    public void update() throws SQLException, RoomNotFound {
+    public String update() throws SQLException, ParseException, RoomNotFound {
         Connection con = dbConnect.getConnection();
         
         if (con == null) {
@@ -307,6 +321,8 @@ public class Room implements Serializable {
                 updatePreparedStatement.setInt(3, roomObj.getRoomNumber());
 
                 updatePreparedStatement.executeUpdate();
+                
+                System.out.println("Executing update.");
             }
             else {
                 insertPreparedStatement.setInt(1, roomObj.getRoomNumber());
@@ -320,19 +336,24 @@ public class Room implements Serializable {
             newDate = cal.getTime();
             
             System.out.println("New Date: " + newDate);
+            
+            con.commit();
         }
- 
-        con.commit();
+        
+        this.roomList = generateRoomList();
+        
         con.close();
         
-        this.selectedRoom = new Room();
+        return "roompricing";
     }
     
-    public void delete() throws RoomNotFound {
+    public String delete() throws RoomNotFound {
         Room roomObj = findRoom(this.selectedRoom.getRoomNumber());
         
         this.roomList.remove(roomObj);
         this.selectedRoom = new Room();
+        
+        return "roompricing";
     }
 }
 

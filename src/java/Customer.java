@@ -184,7 +184,7 @@ public class Customer implements Serializable {
         
         System.out.println(Util.getUserName());
         
-        return "index";
+        return "login";
     }
     
     public String createCustomerEmployee()throws SQLException, ParseException {

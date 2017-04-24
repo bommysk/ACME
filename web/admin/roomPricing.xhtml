@@ -53,13 +53,8 @@
                                 </h:column>
 
                                 <h:column>
-                                    <f:facet name="header"> Start Date </f:facet>
-                                        #{r.startDate}
-                                </h:column>
-
-                                <h:column>
-                                    <f:facet name="header"> End Date </f:facet>
-                                        #{r.endDate}
+                                    <f:facet name="header"> Day </f:facet>
+                                        #{r.day}
                                 </h:column>
 
                             </h:dataTable>
@@ -125,7 +120,9 @@
         
         <script>
             $(document).ready( function () {
-                $('#rooms_table').DataTable();
+                $('#rooms_table').DataTable({
+                    "order": [[ 2, 'asc' ], [ 4, 'asc' ]]
+                });
                 
                 //For calendar
                 $(".datepicker").datepicker({

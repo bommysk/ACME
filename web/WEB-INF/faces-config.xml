@@ -110,6 +110,10 @@
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>reservation</from-outcome>
             <to-view-id>/secured/newReservation.xhtml</to-view-id>
         </navigation-case>
@@ -623,6 +627,11 @@
         <navigation-case>
             <from-outcome>employee</from-outcome>
             <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>roompricing</from-outcome>
+            <to-view-id>/admin/roomPricing.xhtml</to-view-id>
+            <redirect />
         </navigation-case>
     </navigation-rule>  
     
