@@ -20,7 +20,7 @@
                 
             <h1 class="text-center">My Reservations</h1>
          
-            <h:dataTable value="#{reservation.getReservationList()}" var="reservation" border="1" style="width:100%"
+            <h:dataTable value="#{reservation.getSpecificCustomerReservationList()}" var="reservation" border="1" style="width:100%"
                         styleClass="table table-striped table-inverse">
                 <h:column>
                     <f:facet name="header"> Room Number </f:facet>

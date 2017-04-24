@@ -18,30 +18,45 @@
         <div class="container-fluid">
             <h1>Customer Dashboard</h1>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading"><strong>My Reservations</strong></div>
-                <div class="panel-body"><h:link value="Go" outcome="showreservations" class="text-primary" /></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><strong>My Reservations</strong></div>
+                        <div class="panel-body"><h:link value="Go" outcome="showreservations" class="text-primary" /></div>
+                    </div>
+                </div>
+                    
+                <div class="col-md-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><strong>My Transaction History</strong></div>
+                        <div class="panel-body">Panel Content</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="panel panel-success">
-                <div class="panel-heading"><strong>My Transaction History</strong></div>
-                <div class="panel-body">Panel Content</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><strong>My Personal Info</strong></div>
+                        <div class="panel-body">Panel Content</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading"><strong>Rewards</strong></div>
+                        <div class="panel-body">Panel Content</div>
+                    </div>
+                </div>
             </div>
 
-
-            <div class="panel panel-info">
-                <div class="panel-heading"><strong>My Personal Info</strong></div>
-                <div class="panel-body">Panel Content</div>
-            </div>
-
-            <div class="panel panel-warning">
-                <div class="panel-heading"><strong>Rewards</strong></div>
-                <div class="panel-body">Panel Content</div>
-            </div>
-
-            <div class="panel panel-danger">
-                <div class="panel-heading"><strong>Charges Due</strong></div>
-                <div class="panel-body">Panel Content</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading"><strong>Charges Due</strong></div>
+                        <div class="panel-body">Panel Content</div>
+                    </div>
+                </div>
             </div>
         </div>
     </h:body>
