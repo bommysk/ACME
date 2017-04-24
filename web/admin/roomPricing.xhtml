@@ -3,13 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
     <h:head>
         <title>Show All Employees</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/styles.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css" />
@@ -19,49 +22,117 @@
         
         <templates:employeeAdminNavigation/>
         
-        <div class="container col-md-6 col-md-offset-3">
-                
-            <h1 class="text-center">Rooms</h1>
-         
-            <h:dataTable value="#{room.getRoomList()}" var="room" border="1" style="width:100%"
-                        styleClass="table table-striped table-inverse" id="rooms_table">
-                <h:column>
-                    <f:facet name="header"> View </f:facet>
-                        #{room.view}
-                </h:column>
-                
-                <h:column>
-                    <f:facet name="header"> Type </f:facet>
-                        #{room.type}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header"> Room Number </f:facet>
-                        #{room.roomNumber}
-                </h:column>
-                
-                <h:column>
-                    <f:facet name="header"> Price </f:facet>
-                        #{room.price}
-                </h:column>
-                
-                <h:column>
-                    <f:facet name="header"> Start Date </f:facet>
-                        
-                </h:column>
-                
-                <h:column>
-                    <f:facet name="header"> End Date </f:facet>
-                       
-                </h:column>
-                
-            </h:dataTable>
+        <div class="container">
             
-        </div>
+            <h1 class="text-center">Rooms</h1>
+                
+                <div class="row">
+                   
+                    <div class="col-md-8">
+                       
+                            <h:dataTable value="#{room.getRoomList()}" var="r" border="1" style="width:100%"
+                                         class="table table-striped table-inverse" id="rooms_table">
+                                <h:column>
+                                    <f:facet name="header"> View </f:facet>
+                                        #{r.view}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header"> Type </f:facet>
+                                        #{r.type}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header"> Room Number </f:facet>
+                                        #{r.roomNumber}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header"> Amount </f:facet>
+                                        #{r.amount}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header"> Start Date </f:facet>
+                                        #{r.startDate}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header"> End Date </f:facet>
+                                        #{r.endDate}
+                                </h:column>
+
+                            </h:dataTable>
+                                         
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="panel panel-primary">
+                
+                            <div class="panel-heading"></div>
+
+                            <div class="panel-body">
+                                <h:form>
+
+                                    <div class="form-group">
+                                        <label>Room Number:</label> 
+                                        <h:inputText value="#{room.selectedRoom.roomNumber}" class="form-control" />
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Amount:</label> 
+                                        <h:inputText value="#{room.selectedRoom.amount}" class="form-control" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Start Date:</label> 
+                                        <h:inputText class="datepicker form-control" value="#{room.selectedRoom.startDate}"
+                                         required="true"
+                                         requiredMessage="Start Date Required."
+                                         converterMessage="Illegal date (should be MM/dd/yyyy)"
+                                         id="startDate"
+                                         a:placeholder="Start Date">
+                                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                        </h:inputText>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>End Date:</label> 
+                                        <h:inputText class="datepicker form-control" value="#{room.selectedRoom.endDate}"
+                                         required="true"
+                                         requiredMessage="End Date Required."
+                                         converterMessage="Illegal date (should be MM/dd/yyyy)"
+                                         id="endDate"
+                                         a:placeholder="End Date">
+                                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                        </h:inputText>
+                                    </div>
+
+                                    <h:commandButton value="Update" action="#{room.update()}" class="form-control" /> <br />
+                                    <h:commandButton value="Delete" action="#{room.delete()}" class="form-control" />
+
+                                </h:form>
+                            </div>
+                   
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            
+            </div>
         
         <script>
             $(document).ready( function () {
                 $('#rooms_table').DataTable();
+                
+                //For calendar
+                $(".datepicker").datepicker({
+                    inline: true,
+                    showWeek: true,
+                    firstDay: 1
+                });
             } );
         </script>
         

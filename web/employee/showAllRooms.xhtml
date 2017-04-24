@@ -19,40 +19,45 @@
         
         <templates:employeeNavigation/>
         
-        <div class="container col-md-6 col-md-offset-3">
-                
-            <h1 class="text-center">Rooms</h1>
-         
-            <h:dataTable value="#{room.getRoomList()}" var="room" border="1" style="width:100%"
-                        styleClass="table table-striped table-inverse" id="rooms_table">
-                <h:column>
-                    <f:facet name="header"> View </f:facet>
-                        #{room.view}
-                </h:column>
-                
-                <h:column>
-                    <f:facet name="header"> Type </f:facet>
-                        #{room.type}
-                </h:column>
+        <div class="container">
+        
+            <div class="col-md-6 col-md-offset-3">
 
-                <h:column>
-                    <f:facet name="header"> Room Number </f:facet>
-                        #{room.roomNumber}
-                </h:column>
-                
-                <h:column>
-                    <f:facet name="header"> Price </f:facet>
-                        #{room.price}
-                </h:column>
-                
-            </h:dataTable>
-            
-            <script>
-                $(document).ready( function () {
-                    $('#rooms_table').DataTable();
-                } );
-            </script>
+                <h1 class="text-center">Rooms</h1>
+
+                <h:dataTable value="#{room.getRoomList()}" var="room" border="1" style="width:100%"
+                            styleClass="table table-striped table-inverse" id="rooms_table">
+                    <h:column>
+                        <f:facet name="header"> View </f:facet>
+                            #{room.view}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header"> Type </f:facet>
+                            #{room.type}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header"> Room Number </f:facet>
+                            #{room.roomNumber}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header"> Amount </f:facet>
+                            #{room.amount}
+                    </h:column>
+
+                </h:dataTable>
+
+            </div>
             
         </div>
+        
+        <script>
+            $(document).ready( function () {
+                $('#rooms_table').DataTable();
+            } );
+        </script>
+        
     </h:body>
 </html>
