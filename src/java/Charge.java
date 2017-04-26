@@ -27,7 +27,7 @@ import javax.annotation.PostConstruct;
 @ManagedBean
 
 public class Charge implements Serializable {
-    private DBConnect dbConnect = new DBConnect();
+    private final DBConnect dbConnect = new DBConnect();
     private String type;
     private Float amount;
     private Date startDate;
@@ -75,11 +75,14 @@ public class Charge implements Serializable {
     }
     
     public String createNewCharge() throws SQLException {
+        System.out.println("IN CREATE NEW CHARGE");
         Connection con = dbConnect.getConnection();
         Calendar cal = Calendar.getInstance();
         Date newDate = startDate;
         Date finalDate = endDate;
 
+        System.out.println("Reached Here");
+        
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
@@ -95,14 +98,17 @@ public class Charge implements Serializable {
         preparedStatement.executeUpdate();
         
         preparedStatement = 
-                con.prepareStatement("insert into charge(type, amount, day, ) "
+                con.prepareStatement("insert into charge(type, amount, day) "
                         + "values(?, ?, ?)");
         
         cal.setTime(finalDate);
         cal.add(Calendar.DAY_OF_MONTH, 1);
         finalDate = cal.getTime();
+        
+        cal.setTime(newDate);
 
         while (! newDate.equals(finalDate)) {
+            System.out.println("In Loop");
             preparedStatement.setString(1, type);
             preparedStatement.setFloat(2, amount);
             preparedStatement.setDate(3, new java.sql.Date(newDate.getTime()));
@@ -111,9 +117,6 @@ public class Charge implements Serializable {
             
             cal.add(Calendar.DAY_OF_MONTH, 1);
             newDate = cal.getTime();
-            
-            System.out.println("New Date: " + newDate);
-            System.out.println(endDate);
         }
 
         con.commit();

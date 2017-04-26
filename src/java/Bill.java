@@ -107,12 +107,31 @@ public class Bill implements Serializable {
         
         con.setAutoCommit(false);
         
-        PreparedStatement preparedStatement = con.prepareStatement("insert into bill(reservation_id, type, day, amount) "
+        PreparedStatement preparedStatement = con.prepareStatement("insert into chargebill(reservation_id, chargetype, day, amount) "
                 + "values(?, ?, ?, ?)");
         
         preparedStatement.setInt(1, reservationID);
         preparedStatement.setString(2, chargeType);
         preparedStatement.setDate(3, new java.sql.Date(billDate.getTime()));
+        
+        PreparedStatement chargePreparedStatement = con.prepareStatement("select amount from charge where type = ? and day = ?");
+        chargePreparedStatement.setString(1, chargeType);
+        chargePreparedStatement.setDate(2, new java.sql.Date(billDate.getTime()));
+        
+        ResultSet chargeResult = chargePreparedStatement.executeQuery();
+        
+        if (chargeResult.next()) {
+            preparedStatement.setFloat(4, chargeResult.getFloat("amount"));
+        }
+        else {
+            PreparedStatement defaultChargePreparedStatement = con.prepareStatement("select amount from defaultcharge where type = ?");
+            defaultChargePreparedStatement.setString(1, chargeType);
+            ResultSet defaultChargeResult = defaultChargePreparedStatement.executeQuery();
+            
+            defaultChargeResult.next();
+            
+            preparedStatement.setFloat(4, defaultChargeResult.getFloat("amount"));
+        }
         
         preparedStatement.executeUpdate();
 
