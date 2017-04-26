@@ -75,13 +75,10 @@ public class Charge implements Serializable {
     }
     
     public String createNewCharge() throws SQLException {
-        System.out.println("IN CREATE NEW CHARGE");
         Connection con = dbConnect.getConnection();
         Calendar cal = Calendar.getInstance();
         Date newDate = startDate;
         Date finalDate = endDate;
-
-        System.out.println("Reached Here");
         
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -90,13 +87,23 @@ public class Charge implements Serializable {
         con.setAutoCommit(false);
         
         PreparedStatement preparedStatement = 
-                con.prepareStatement("insert into defaultcharge(type, amount) values(?, ?)");
+                con.prepareStatement("select * from defaultcharge where type = ?");
         
         preparedStatement.setString(1, type);
-        preparedStatement.setFloat(2, amount);
         
-        preparedStatement.executeUpdate();
+        ResultSet result = preparedStatement.executeQuery();
         
+        if (! result.next()) {
+        
+            preparedStatement = 
+                    con.prepareStatement("insert into defaultcharge(type, amount) values(?, ?)");
+
+            preparedStatement.setString(1, type);
+            preparedStatement.setFloat(2, amount);
+
+            preparedStatement.executeUpdate();
+        }    
+            
         preparedStatement = 
                 con.prepareStatement("insert into charge(type, amount, day) "
                         + "values(?, ?, ?)");
@@ -108,7 +115,6 @@ public class Charge implements Serializable {
         cal.setTime(newDate);
 
         while (! newDate.equals(finalDate)) {
-            System.out.println("In Loop");
             preparedStatement.setString(1, type);
             preparedStatement.setFloat(2, amount);
             preparedStatement.setDate(3, new java.sql.Date(newDate.getTime()));

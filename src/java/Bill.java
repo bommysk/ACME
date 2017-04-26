@@ -32,6 +32,7 @@ public class Bill implements Serializable {
     private Integer roomNumber;
     private Float amount;
     private List<Bill> roomBill;
+    private List<Bill> chargeBill;
     private Room room;
     
     public DBConnect getDbConnect() {
@@ -90,6 +91,14 @@ public class Bill implements Serializable {
         this.roomBill = roomBill;
     }
 
+    public List<Bill> getChargeBill() {
+        return chargeBill;
+    }
+
+    public void setChargeBill(List<Bill> chargeBill) {
+        this.chargeBill = chargeBill;
+    }
+    
     public Room getRoom() {
         return room;
     }
@@ -143,7 +152,7 @@ public class Bill implements Serializable {
     
     public List<Bill> getRoomBillList() throws SQLException {
         Connection con = dbConnect.getConnection();
-        ArrayList<Bill> roombill = new ArrayList<>(); // this is used to keep track of pricing
+        ArrayList<Bill> roomBill = new ArrayList<>(); // this is used to keep track of pricing
         
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -168,10 +177,43 @@ public class Bill implements Serializable {
             bill.setBillDate(result.getDate("day"));
             bill.setAmount(result.getFloat("amount"));
             
-            roombill.add(bill);
+            roomBill.add(bill);
         }
         
-        return roombill;
+        return roomBill;
+    }
+    
+    public List<Bill> getChargeBillList() throws SQLException {
+        Connection con = dbConnect.getConnection();
+        ArrayList<Bill> chargeBill = new ArrayList<>(); // this is used to keep track of pricing
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        } 
+        
+       PreparedStatement preparedStatement = con.prepareStatement(
+                    "select reservation_id, chargetype, day, amount from chargebill join reservation "
+                            + "on chargebill.reservation_id = reservation.id where customer_id = (select id from customer where login = ?)"
+                            + " order by reservation_id");
+       
+       preparedStatement.setString(1, Util.getUserName());
+
+        //get customer data from database
+        ResultSet result = preparedStatement.executeQuery();
+        
+        while (result.next()) {
+            Bill bill = new Bill();
+            
+            
+            bill.setReservationID(result.getInt("reservation_id"));
+            bill.setChargeType(result.getString("chargetype"));
+            bill.setAmount(result.getFloat("amount"));
+            bill.setBillDate(result.getDate("day"));
+            
+            chargeBill.add(bill);
+        }
+        
+        return chargeBill;
     }
     
     @PostConstruct

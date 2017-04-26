@@ -740,6 +740,10 @@
             <from-outcome>reservation</from-outcome>
             <to-view-id>/secured/newReservation.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/newCustomer.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
@@ -757,6 +761,10 @@
         <navigation-case>
             <from-outcome>reservation</from-outcome>
             <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/newCustomer.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
      
