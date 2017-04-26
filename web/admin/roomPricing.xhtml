@@ -106,6 +106,8 @@
                                          a:placeholder="End Date">
                                         <f:convertDateTime pattern="MM/dd/yyyy"/>
                                         </h:inputText>
+                                        <h:message for="endDate" style="color:red;margin:8px;"/>
+
                                     </div>
 
                                     <h:commandButton value="Update" action="#{room.update()}" class="form-control btn btn-primary" /> <br /><br />
