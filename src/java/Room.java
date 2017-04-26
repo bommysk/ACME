@@ -13,6 +13,11 @@ import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 @Named(value = "room")
 @SessionScoped
@@ -30,13 +35,7 @@ public class Room implements Serializable {
     private ArrayList<Integer> allRoomNumbers = new ArrayList<>();
     private List<Room> roomList;
     private Room selectedRoom;
-
-    public Room() {
-        this.view = "";
-        this.type = "";
-        this.roomNumber = 0;
-        this.amount = new Float(0.0);
-    }
+    private UIInput startDateUI;
     
     public List<Room> getRoomList() {
         return roomList;
@@ -108,6 +107,14 @@ public class Room implements Serializable {
 
     public void setDay(Date day) {
         this.day = day;
+    }
+
+    public UIInput getStartDateUI() {
+        return startDateUI;
+    }
+
+    public void setStartDateUI(UIInput startDateUI) {
+        this.startDateUI = startDateUI;
     }
     
     
@@ -189,8 +196,7 @@ public class Room implements Serializable {
                     room.setAmount(new Float(100.0));
                     room.setStartDate(new SimpleDateFormat("MM/dd/yyyy" ).parse("01/01/1900"));
                     room.setEndDate(new SimpleDateFormat("MM/dd/yyyy" ).parse("01/01/2900" ));
-                    //store all data into a List
-                    System.out.println("ADDING ROOM");
+                    //store all data into a List                    
                     roomList.add(room);
                 }
             }
@@ -272,6 +278,22 @@ public class Room implements Serializable {
     
     public void select(Room r) {
         this.selectedRoom = r;
+    }
+    
+    public void validateDate(FacesContext context, UIComponent component, Object value)
+            throws ValidatorException {
+        
+        Date submittedEndDate = (Date) value;
+        Date submittedStartDate = (Date) startDateUI.getLocalValue(); 
+        
+        System.out.println("DATES");
+        System.out.println(submittedStartDate);
+        System.out.println(submittedEndDate); 
+        
+        if (submittedStartDate.after(submittedEndDate)) {            
+            FacesMessage errorMessage = new FacesMessage("The start date cannot be greater than the end date.");
+            throw new ValidatorException(errorMessage);
+        }
     }
     
     public String update() throws SQLException, ParseException, RoomNotFound {

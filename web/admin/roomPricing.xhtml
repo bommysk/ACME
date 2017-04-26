@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
     <h:head>
         <title>Show All Employees</title>
@@ -84,7 +85,8 @@
                                         <label>Start Date:</label> 
                                         <h:inputText class="datepicker form-control" value="#{room.selectedRoom.startDate}"
                                          required="true"
-                                         requiredMessage="Start Date Required."
+                                         binding="#{room.startDateUI}"
+                                         requiredMessage="Start Date Required."                                         
                                          converterMessage="Illegal date (should be MM/dd/yyyy)"
                                          id="startDate"
                                          a:placeholder="Start Date">
@@ -95,8 +97,10 @@
                                     <div class="form-group">
                                         <label>End Date:</label> 
                                         <h:inputText class="datepicker form-control" value="#{room.selectedRoom.endDate}"
-                                         required="true"
-                                         requiredMessage="End Date Required."
+                                         required="true"                                         
+                                         validatorMessage="The start date cannot be greater than the end date."
+                                         validator="#{room.validateDate}"
+                                         requiredMessage="End Date Required."                                        
                                          converterMessage="Illegal date (should be MM/dd/yyyy)"
                                          id="endDate"
                                          a:placeholder="End Date">
@@ -124,13 +128,15 @@
                     "order": [[ 2, 'asc' ], [ 4, 'asc' ]]
                 });
                 
+                var dateToday = new Date();
                 //For calendar
                 $(".datepicker").datepicker({
+                    minDate: dateToday,
                     inline: true,
                     showWeek: true,
-                    firstDay: 1
-                });
-            } );
+                    firstDay: 1,
+                })               
+            });
         </script>
         
     </h:body>
