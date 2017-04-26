@@ -11,6 +11,7 @@
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.annotation.ManagedBean;
@@ -25,9 +26,13 @@ import javax.annotation.PostConstruct;
 @ManagedBean
 public class Bill implements Serializable {
     private DBConnect dbConnect = new DBConnect();
-    private int reservationID;
+    private Integer reservationID;
     private String chargeType;
     private Date billDate = new Date();
+    private Integer roomNumber;
+    private Float amount;
+    private List<Bill> roomBill;
+    private Room room;
     
     public DBConnect getDbConnect() {
         return dbConnect;
@@ -37,11 +42,11 @@ public class Bill implements Serializable {
         this.dbConnect = dbConnect;
     }
 
-    public int getReservationID() {
+    public Integer getReservationID() {
         return reservationID;
     }
 
-    public void setReservationID(int reservationID) {
+    public void setReservationID(Integer reservationID) {
         this.reservationID = reservationID;
     }
 
@@ -60,8 +65,40 @@ public class Bill implements Serializable {
     public void setBillDate(Date billDate) {
         this.billDate = billDate;
     }
+
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public Float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Float amount) {
+        this.amount = amount;
+    }
     
-    public String addToBill() throws SQLException {
+    public List<Bill> getRoomBill() {
+        return this.roomBill;
+    }
+
+    public void setRoomBill(List<Bill> roomBill) {
+        this.roomBill = roomBill;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+    
+    public String addToChargeBill() throws SQLException {
         Connection con = dbConnect.getConnection();
 
         if (con == null) {
@@ -70,8 +107,8 @@ public class Bill implements Serializable {
         
         con.setAutoCommit(false);
         
-        PreparedStatement preparedStatement = con.prepareStatement("insert into bill(reservation_id, defaultcharge_id, bill_date) "
-                + "values(?, (select id from defaultcharge where type = ?), ?)");
+        PreparedStatement preparedStatement = con.prepareStatement("insert into bill(reservation_id, type, day, amount) "
+                + "values(?, ?, ?, ?)");
         
         preparedStatement.setInt(1, reservationID);
         preparedStatement.setString(2, chargeType);
@@ -83,5 +120,48 @@ public class Bill implements Serializable {
         con.close();
         
         return "/employee/employeeDashboard.xhtml";
+    }
+    
+    public List<Bill> getRoomBillList() throws SQLException {
+        Connection con = dbConnect.getConnection();
+        ArrayList<Bill> roombill = new ArrayList<>(); // this is used to keep track of pricing
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        } 
+        
+       PreparedStatement preparedStatement = con.prepareStatement(
+                    "select reservation_id, reservation.room_number, view, type, day, amount from roombill join reservation "
+                            + "on roombill.reservation_id = reservation.id join room on room.room_number = reservation.room_number order by reservation_id");
+
+        //get customer data from database
+        ResultSet result = preparedStatement.executeQuery();
+        
+        while (result.next()) {
+            Bill bill = new Bill();
+            
+            bill.room = new Room();
+            
+            bill.setReservationID(result.getInt("reservation_id"));
+            bill.setRoomNumber(result.getInt("room_number"));
+            bill.room.setView(result.getString("view"));
+            bill.room.setType(result.getString("type"));
+            bill.setBillDate(result.getDate("day"));
+            bill.setAmount(result.getFloat("amount"));
+            
+            roombill.add(bill);
+        }
+        
+        return roombill;
+    }
+    
+    @PostConstruct
+    public void init() {
+        try {
+            this.roomBill = getRoomBillList();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

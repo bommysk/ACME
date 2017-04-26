@@ -80,32 +80,45 @@ ALTER TABLE reservation
    REFERENCES room(room_number)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
-DROP TABLE IF EXISTS bill CASCADE;
+DROP TABLE IF EXISTS roombill CASCADE;
+
+CREATE TABLE roombill (
+    id             serial PRIMARY KEY,
+    reservation_id integer NOT NULL,
+    day            date NOT NULL,
+    amount         float NOT NULL
+); 
+
+
+/* Not deleting on cascade because the charges still
+   stand even if customer leaves early. */
+ALTER TABLE roombill
+   ADD CONSTRAINT fk_reservation
+   FOREIGN KEY (reservation_id) 
+   REFERENCES reservation(id);
+
+DROP TABLE IF EXISTS chargebill CASCADE;
 
 /* This table holds the bill information mapping charges
  * to the respective reservation. The bill_date is an
  * important field that allows original charges to be
  * preserved. There is a separate tuple for each charge
- * to a reservation.
+ * to a reservation. From the reservation_id we can get
+ * the room_id. And from the room_id we can get the price.
  */
 
-CREATE TABLE bill (
-    id              serial PRIMARY KEY,
-    reservation_id  integer NOT NULL,
-    defaultcharge_id  integer NOT NULL,
-    bill_date       date NOT NULL
+CREATE TABLE chargebill (
+    id                serial PRIMARY KEY,
+    reservation_id    integer NOT NULL,
+    chargetype        varchar(100) NOT NULL,
+    day               date NOT NULL,
+    amount            float NOT NULL
 );
 
-ALTER TABLE bill
+ALTER TABLE chargebill
    ADD CONSTRAINT fk_reservation
    FOREIGN KEY (reservation_id) 
    REFERENCES reservation(id)
-   ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE bill
-   ADD CONSTRAINT fk_defaultcharge
-   FOREIGN KEY (defaultcharge_id) 
-   REFERENCES defaultcharge(id)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS defaultcharge CASCADE;
@@ -134,15 +147,8 @@ CREATE TABLE charge (
     id               serial PRIMARY KEY,
     type             varchar(100) NOT NULL,
     amount           float NOT NULL,
-    day              date NOT NULL,
-    defaultcharge_id integer NOT NULL
+    day              date NOT NULL
 );
-
-ALTER TABLE charge
-   ADD CONSTRAINT fk_defaultcharge
-   FOREIGN KEY (defaultcharge_id) 
-   REFERENCES defaultcharge(id)
-   ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS employee CASCADE;
 

@@ -77,8 +77,8 @@ public class Charge implements Serializable {
     public String createNewCharge() throws SQLException {
         Connection con = dbConnect.getConnection();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(startDate);
         Date newDate = startDate;
+        Date finalDate = endDate;
 
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -95,14 +95,17 @@ public class Charge implements Serializable {
         preparedStatement.executeUpdate();
         
         preparedStatement = 
-                con.prepareStatement("insert into charge(type, amount, day, defaultcharge_id) "
-                        + "values(?, ?, ?, (select id from defaultcharge where defaultcharge.type = ?))");
+                con.prepareStatement("insert into charge(type, amount, day, ) "
+                        + "values(?, ?, ?)");
         
-        while (! newDate.equals(endDate)) {
+        cal.setTime(finalDate);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        finalDate = cal.getTime();
+
+        while (! newDate.equals(finalDate)) {
             preparedStatement.setString(1, type);
             preparedStatement.setFloat(2, amount);
             preparedStatement.setDate(3, new java.sql.Date(newDate.getTime()));
-            preparedStatement.setString(4, type);
 
             preparedStatement.executeUpdate();
             

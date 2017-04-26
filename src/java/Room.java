@@ -165,10 +165,6 @@ public class Room implements Serializable {
             room.setAmount(result.getFloat("amount"));
             room.setDay(result.getDate("day"));
             
-            System.out.println("ADDING ROOMs");
-            System.out.println(result.getInt("room_number"));
-            System.out.println(new Date());
-            
             roomNumbers.add(room.getRoomNumber());
             
             roomList.add(room);
@@ -287,13 +283,7 @@ public class Room implements Serializable {
         
         con.setAutoCommit(false);
         
-        Room roomObj = findRoom(this.selectedRoom.getRoomNumber());
-        
-        roomObj.setAmount(this.selectedRoom.getAmount());
-        roomObj.setStartDate(this.selectedRoom.getStartDate());
-        roomObj.setEndDate(this.selectedRoom.getEndDate());
-        
-        Date newDate = this.selectedRoom.getStartDate();
+        Date tempDate = this.selectedRoom.getStartDate();
         Date finalDate = this.selectedRoom.getEndDate();
         
         PreparedStatement updatePreparedStatement = con.prepareStatement(
@@ -308,34 +298,31 @@ public class Room implements Serializable {
         cal.add(Calendar.DAY_OF_MONTH, 1);
         finalDate = cal.getTime();
         
-        cal.setTime(newDate);
+        cal.setTime(tempDate);
         
-        System.out.println("NEW DATE");
-        System.out.println(newDate);
-        
-        while (! newDate.equals(finalDate)) {
+        while (! tempDate.equals(finalDate)) {
             
-            if (roomPriceExists(roomObj.getRoomNumber(), newDate)) {
-                updatePreparedStatement.setFloat(1, roomObj.getAmount());
-                updatePreparedStatement.setDate(2, new java.sql.Date(newDate.getTime()));
-                updatePreparedStatement.setInt(3, roomObj.getRoomNumber());
+            if (roomPriceExists(this.selectedRoom.getRoomNumber(), tempDate)) {
+                updatePreparedStatement.setFloat(1, this.selectedRoom.getAmount());
+                updatePreparedStatement.setDate(2, new java.sql.Date(tempDate.getTime()));
+                updatePreparedStatement.setInt(3, this.selectedRoom.getRoomNumber());
 
                 updatePreparedStatement.executeUpdate();
                 
                 System.out.println("Executing update.");
             }
             else {
-                insertPreparedStatement.setInt(1, roomObj.getRoomNumber());
-                insertPreparedStatement.setFloat(2, roomObj.getAmount());
-                insertPreparedStatement.setDate(3, new java.sql.Date(newDate.getTime()));
+                insertPreparedStatement.setInt(1, this.selectedRoom.getRoomNumber());
+                insertPreparedStatement.setFloat(2, this.selectedRoom.getAmount());
+                insertPreparedStatement.setDate(3, new java.sql.Date(tempDate.getTime()));
 
                 insertPreparedStatement.executeUpdate();
             }
             
             cal.add(Calendar.DAY_OF_MONTH, 1);
-            newDate = cal.getTime();
+            tempDate = cal.getTime();
             
-            System.out.println("New Date: " + newDate);
+            System.out.println("Temp Date: " + tempDate);
             
             con.commit();
         }
@@ -347,11 +334,54 @@ public class Room implements Serializable {
         return "roompricing";
     }
     
-    public String delete() throws RoomNotFound {
+    public String delete() throws SQLException, ParseException, RoomNotFound {
         Room roomObj = findRoom(this.selectedRoom.getRoomNumber());
         
-        this.roomList.remove(roomObj);
+        Date tempDate = this.selectedRoom.getStartDate();
+        Date finalDate = this.selectedRoom.getEndDate();
+        
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+        
+        PreparedStatement preparedStatement = con.prepareStatement(
+                    "delete from roomprice where day = ? and room_number = ?");
+        
+        Calendar cal = Calendar.getInstance();
+        
+        cal.setTime(finalDate);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        finalDate = cal.getTime();
+        
+        cal.setTime(tempDate);
+        
+        while (! tempDate.equals(finalDate)) {
+            
+            if (roomPriceExists(this.selectedRoom.getRoomNumber(), tempDate)) {
+                preparedStatement.setDate(1, new java.sql.Date(tempDate.getTime()));
+                preparedStatement.setInt(2, this.selectedRoom.getRoomNumber());
+
+                preparedStatement.executeUpdate();
+                
+                System.out.println("Executing update.");
+            }
+            
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            tempDate = cal.getTime();
+            
+            System.out.println("Temp Date: " + tempDate);
+            
+            con.commit();
+        }
+        
         this.selectedRoom = new Room();
+        this.roomList = generateRoomList();
+        
+        con.close();
         
         return "roompricing";
     }

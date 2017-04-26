@@ -5,7 +5,10 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
     <h:head>
-        <title>Show Reservations</title>
+        <title>Transaction History</title>
+        
+        #{bill.setRoomBill(bill.getRoomBillList())}
+        
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/styles.css" rel="stylesheet" type="text/css" />
         
@@ -18,33 +21,37 @@
         
         <div class="container col-md-6 col-md-offset-3">
                 
-            <h1 class="text-center">My Reservations</h1>
+            <h1 class="text-center">My Transaction History</h1>
          
-            <h:dataTable value="#{reservation.getSpecificCustomerReservationList()}" var="reserv" border="1" style="width:100%"
+            <hr />
+            
+            <h2>Room Transactions</h2>
+            
+            <h:dataTable value="#{bill.roomBill}" var="rmbill" border="1" style="width:100%"
                         styleClass="table table-striped table-inverse">
                 <h:column>
                     <f:facet name="header"> Room Number </f:facet>
-                        #{reserv.roomNumber}
+                        #{rmbill.roomNumber}
                 </h:column>
                 
                 <h:column>
                     <f:facet name="header"> View </f:facet>
-                        #{reserv.view}
+                        #{rmbill.room.view}
                 </h:column>
                 
                 <h:column>
                     <f:facet name="header"> Type </f:facet>
-                        #{reserv.type}
+                        #{rmbill.room.type}
                 </h:column>
                 
                 <h:column>
-                    <f:facet name="header"> Start Date </f:facet>
-                        #{reserv.startDate}
+                    <f:facet name="header"> Day </f:facet>
+                        #{rmbill.billDate}
                 </h:column>
                 
                 <h:column>
-                    <f:facet name="header"> End Date </f:facet>
-                        #{reserv.endDate}
+                    <f:facet name="header"> Amount </f:facet>
+                        #{rmbill.amount}
                 </h:column>
                 
             </h:dataTable>

@@ -189,6 +189,10 @@
             <to-view-id>/secured/personalInfo.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>transactionhistory</from-outcome>
+            <to-view-id>/secured/transactionHistory.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>rewards</from-outcome>
             <to-view-id>/secured/rewards.xhtml</to-view-id>
         </navigation-case>
@@ -233,6 +237,24 @@
     <navigation-rule>
         <from-view-id>
             /secured/personalInfo.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>employeeLogin</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+  
+    <navigation-rule>
+        <from-view-id>
+            /secured/transactionHistory.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>
