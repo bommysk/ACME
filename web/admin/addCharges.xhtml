@@ -91,10 +91,11 @@
             </div>
         </div>
         
-         <script type="text/javascript">
-            
+        <script type="text/javascript">
+            var dateToday = new Date();
             //For calendar
             $(".datepicker").datepicker({
+                minDate: dateToday,
                 inline: true,
                 showWeek: true,
                 firstDay: 1

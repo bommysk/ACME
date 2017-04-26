@@ -95,7 +95,8 @@ CREATE TABLE roombill (
 ALTER TABLE roombill
    ADD CONSTRAINT fk_reservation
    FOREIGN KEY (reservation_id) 
-   REFERENCES reservation(id);
+   REFERENCES reservation(id)
+   ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS chargebill CASCADE;
 

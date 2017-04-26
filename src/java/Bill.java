@@ -160,8 +160,11 @@ public class Bill implements Serializable {
         
        PreparedStatement preparedStatement = con.prepareStatement(
                     "select reservation_id, reservation.room_number, view, type, day, amount from roombill join reservation "
-                            + "on roombill.reservation_id = reservation.id join room on room.room_number = reservation.room_number order by reservation_id");
+                            + "on roombill.reservation_id = reservation.id join room on room.room_number = reservation.room_number"
+                            + " where customer_id = (select id from customer where login = ?) order by reservation_id");
 
+       preparedStatement.setString(1, Util.getUserName());
+       
         //get customer data from database
         ResultSet result = preparedStatement.executeQuery();
         
@@ -214,15 +217,5 @@ public class Bill implements Serializable {
         }
         
         return chargeBill;
-    }
-    
-    @PostConstruct
-    public void init() {
-        try {
-            this.roomBill = getRoomBillList();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
