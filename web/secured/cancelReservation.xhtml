@@ -2,12 +2,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp">
     
-    <title>Checkin Customer</title>
+    <title>Cancel Customer</title>
     <h:head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/styles.css" rel="stylesheet" type="text/css" />
@@ -16,11 +14,11 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </h:head>
     <h:body>
-        <templates:employeeNavigation/>
+        <templates:securedNavigation/>
         
         <div class="container col-md-6 col-md-offset-3">
                 
-            <h1 class="text-center">Checkin Customer</h1>
+            <h1 class="text-center">Cancel Reservation</h1>
 
             <div class="panel panel-primary">
                 
@@ -31,17 +29,17 @@
                     <h:form>
                         
                         <div class="form-group">
-                            <label>Customer Login:</label> <h:inputText value="#{reservation.reservationID}" required="true"
+                            <label>Reservation ID:</label> <h:inputText value="#{reservation.reservationID}" required="true"
                                                         requiredMessage="Your must enter the reservation id."
-                                                        id="reservationid"
-                                                        validatorMessage="This reservation id does not exist."
-                                                        validator="#{reservation.validateReservationExistence}"
+                                                        id="login"
+                                                        validatorMessage="This reservation cannot be cancelled, it doesn't exist or it has already started."
+                                                        validator="#{reservation.validateReservationCancellation}"
                                                         class="form-control"
                                                         a:placeholder="Reservation ID" />
                             <h:message for="login" style="color:red;margin:8px;"/>
                         </div>
                         
-                        <h:commandButton value="Checkin" class="btn btn-primary" action="#{reservation.checkin}">
+                        <h:commandButton value="Cancel" class="btn btn-danger" action="#{reservation.deleteReservation}">
                         </h:commandButton>
                         
                     </h:form>

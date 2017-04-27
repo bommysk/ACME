@@ -102,6 +102,7 @@ public class Login implements Serializable {
     }
 
     public String go() {
+        
         Util.validateUserSession(customerLogin);
         
         return "success";

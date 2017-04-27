@@ -48,6 +48,7 @@ public class Customer implements Serializable {
     private Integer cvvNumber;
     private Date createdDate = new Date();
     private Date checkinDate = new Date();
+    private Room room;
     
     public DBConnect getDbConnect() {
         return dbConnect;
@@ -151,6 +152,14 @@ public class Customer implements Serializable {
 
     public void setCheckinDate(Date checkinDate) {
         this.checkinDate = checkinDate;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public String createCustomer() throws SQLException, ParseException {
@@ -314,28 +323,6 @@ public class Customer implements Serializable {
         return custList;
     }
     
-    public String checkin() throws SQLException {
-        Connection con = dbConnect.getConnection();
-
-        if (con == null) {
-            throw new SQLException("Can't get database connection");
-        }
-        
-        con.setAutoCommit(false);
-        
-        PreparedStatement preparedStatement = con.prepareStatement("insert into checkin(customer_id, checkin_date) values((select id from customer where login = ?), ?)");
-        
-        preparedStatement.setString(1, customerLogin);
-        preparedStatement.setDate(2, new java.sql.Date(checkinDate.getTime()));
-        
-        preparedStatement.executeUpdate();
-
-        con.commit();
-        con.close();
-        
-        return "/employee/employeeDashboard.xhtml";
-    }
-    
     public List<Customer> getCheckedInCustomerList() throws SQLException {
         Connection con = dbConnect.getConnection();
 
@@ -347,8 +334,9 @@ public class Customer implements Serializable {
 
         PreparedStatement preparedStatement
                 = con.prepareStatement(
-                        "select login, first_name, last_name, email, postal_address, checkin_date from "
-                                + "customer join checkin on customer.id = checkin.customer_id order by checkin_date");
+                        "select login, first_name, last_name, email, postal_address, room_number, checkin_date from "
+                                + "reservation join checkin on checkin.id = reservation.id join "
+                                + "customer on customer.id = reservation.customer_id order by checkin_date");
         
         //get customer data from database
         ResultSet result = preparedStatement.executeQuery();
@@ -357,12 +345,14 @@ public class Customer implements Serializable {
 
         while (result.next()) {
             Customer cust = new Customer();
+            cust.room = new Room();
 
             cust.setCustomerLogin(result.getString("login"));
             cust.setFirstName(result.getString("first_name"));
             cust.setLastName(result.getString("last_name"));
             cust.setEmail(result.getString("email"));
             cust.setPostalAddress(result.getString("postal_address"));
+            cust.room.setRoomNumber(result.getInt("room_number"));
             cust.setCheckinDate(result.getDate("checkin_date"));
 
             //store all data into a List
@@ -373,5 +363,28 @@ public class Customer implements Serializable {
         con.close();
         
         return custList;
+    }
+    
+    public Integer getCustomerID(String custLogin) throws SQLException {
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+
+        PreparedStatement preparedStatement
+                = con.prepareStatement(
+                        "select id from customer where login = ?");
+
+        preparedStatement.setString(1, custLogin);
+        
+        //get customer data from database
+        ResultSet result = preparedStatement.executeQuery();
+        
+        result.next();
+        
+        return result.getInt("id");
     }
 }

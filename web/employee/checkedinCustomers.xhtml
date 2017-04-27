@@ -42,11 +42,17 @@
                     <f:facet name="header"> Postal Address </f:facet>
                         #{cust.postalAddress}
                 </h:column>
+                
+                <h:column>
+                    <f:facet name="header"> Room Number </f:facet>
+                        #{cust.room.roomNumber}
+                </h:column>
 
                 <h:column>
                     <f:facet name="header">Checkin Date</f:facet>
                         #{cust.checkinDate}
                 </h:column>
+                
             </h:dataTable>
         </div>
     </h:body>

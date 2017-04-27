@@ -7,7 +7,7 @@
       xmlns:templates = "http://xmlns.jcp.org/jsf/composite/ezcomp"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     
-    <title>Checkin Customer</title>
+    <title>Checkout Customer</title>
     <h:head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/styles.css" rel="stylesheet" type="text/css" />
@@ -20,7 +20,7 @@
         
         <div class="container col-md-6 col-md-offset-3">
                 
-            <h1 class="text-center">Checkin Customer</h1>
+            <h1 class="text-center">Checkout Customer</h1>
 
             <div class="panel panel-primary">
                 
@@ -31,17 +31,17 @@
                     <h:form>
                         
                         <div class="form-group">
-                            <label>Customer Login:</label> <h:inputText value="#{reservation.reservationID}" required="true"
+                            <label>Reservation ID:</label> <h:inputText value="#{reservation.bill.reservationID}" required="true"
                                                         requiredMessage="Your must enter the reservation id."
-                                                        id="reservationid"
+                                                        id="reservation"
                                                         validatorMessage="This reservation id does not exist."
                                                         validator="#{reservation.validateReservationExistence}"
                                                         class="form-control"
                                                         a:placeholder="Reservation ID" />
-                            <h:message for="login" style="color:red;margin:8px;"/>
+                            <h:message for="reservation" style="color:red;margin:8px;"/>
                         </div>
                         
-                        <h:commandButton value="Checkin" class="btn btn-primary" action="#{reservation.checkin}">
+                        <h:commandButton value="Checkout" class="btn btn-danger" action="#{reservation.displayReservationBill}">
                         </h:commandButton>
                         
                     </h:form>

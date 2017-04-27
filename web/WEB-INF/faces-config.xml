@@ -196,6 +196,10 @@
             <from-outcome>rewards</from-outcome>
             <to-view-id>/secured/rewards.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>cancelreservation</from-outcome>
+            <to-view-id>/secured/cancelReservation.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
@@ -363,6 +367,10 @@
             <from-outcome>buildbill</from-outcome>
             <to-view-id>/employee/buildBill.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>checkout</from-outcome>
+            <to-view-id>/employee/checkoutCustomer.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule> 
     
     <navigation-rule>
@@ -509,6 +517,46 @@
             <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>   
+    
+    <navigation-rule>
+        <from-view-id>
+            /employee/checkoutCustomer.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>displayReservationBill</from-outcome>
+            <to-view-id>/employee/displayReservationBill.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /employee/displayReservationBill.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/employeeLogin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>/employee/employeeDashboard</from-outcome>
+            <to-view-id>/employee/employeeDashboard</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/adminDashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
     
     <navigation-rule>
         <from-view-id>
@@ -807,6 +855,24 @@
     <navigation-rule>
         <from-view-id>
             /secured/index.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>newCustomer</from-outcome>
+            <to-view-id>/secured/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservation</from-outcome>
+            <to-view-id>/secured/newReservation.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /secured/cancelReservation.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>

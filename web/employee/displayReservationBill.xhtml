@@ -7,8 +7,9 @@
     <h:head>
         <title>Transaction History</title>
         
-        #{bill.setRoomBill(bill.getRoomBillList())}
-        #{bill.setChargeBill(bill.getChargeBillList())}
+        #{reservation.bill.setSpecificReservationRoomBill(reservation.bill.getSpecificReservationRoomBillList())}
+        #{reservation.bill.setSpecificReservationChargeBill(reservation.bill.getSpecificReservationChargeBillList())}
+        #{reservation.checkout()}
         
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/styles.css" rel="stylesheet" type="text/css" />
@@ -18,17 +19,18 @@
     </h:head>
     <h:body>
         
-        <templates:securedNavigation/>
+        <templates:employeeNavigation/>
         
         <div class="container col-md-6 col-md-offset-3">
                 
-            <h1 class="text-center">My Transaction History</h1>
+            <h1 class="text-center">Reservation Bill</h1>
+            <h3>Reservation ID: #{reservation.bill.reservationID}</h3>
          
             <hr />
             
             <h2>Room Transactions</h2>
             
-            <h:dataTable value="#{bill.roomBill}" var="rmbill" border="1" style="width:100%"
+            <h:dataTable value="#{reservation.bill.specificReservationRoomBill}" var="rmbill" border="1" style="width:100%"
                         styleClass="table table-striped table-inverse">
                 
                 <h:column>
@@ -67,7 +69,7 @@
             
             <h2>Charge Transactions</h2>
             
-            <h:dataTable value="#{bill.chargeBill}" var="chbill" border="1" style="width:100%"
+            <h:dataTable value="#{reservation.bill.specificReservationChargeBill}" var="chbill" border="1" style="width:100%"
                         styleClass="table table-striped table-inverse">
                 
                 <h:column>
