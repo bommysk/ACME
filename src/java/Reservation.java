@@ -342,9 +342,9 @@ public class Reservation implements Serializable {
         PreparedStatement insertRoomTransactionHistoryPreparedStatement
                 = con.prepareStatement(
                         "insert into roomtransactionhistory(reservation_id, customer_id, room_number, view, type, day, amount) "
-                            + "select reservation_id, customer_id, reservation.room_number, view, type, day, amount from roombill join reservation "
+                            + "select max(reservation_id), customer_id, reservation.room_number, view, type, day, amount from roombill join reservation "
                             + "on roombill.reservation_id = reservation.id join room on room.room_number = reservation.room_number"
-                            + " where customer_id = ? order by reservation_id");
+                            + " where reservation_id = ? order by reservation_id");
         
         insertRoomTransactionHistoryPreparedStatement.setInt(1, (new Customer()).getCustomerID(Util.getUserName()));
         

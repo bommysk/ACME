@@ -250,7 +250,8 @@ public class Room implements Serializable {
         
         con.setAutoCommit(false);
 
-        PreparedStatement preparedStatement = con.prepareStatement("select min(room_number) room_number from room where view = ? and type = ?");
+        PreparedStatement preparedStatement = con.prepareStatement("select min(room.room_number) room_number from room left join "
+                + "reservation on room.room_number = reservation.room_number where reservation.room_number is null and view = ? and type = ?");
         preparedStatement.setString(1, view);
         preparedStatement.setString(2, type);
         
