@@ -164,9 +164,9 @@ public class Bill implements Serializable {
         PreparedStatement insertChargeTransactionHistoryPreparedStatement
                 = con.prepareStatement(
                         "insert into chargetransactionhistory(reservation_id, customer_id, chargetype, day, amount) "
-                            + "select reservation_id, customer_id, chargetype, day, amount from chargebill join reservation "
-                            + "on chargebill.reservation_id = reservation.id where reservation_id = ?"
-                            + " order by reservation_id");
+                            + "(select reservation_id, customer_id, chargetype, day, amount from chargebill join reservation "
+                            + "on chargebill.reservation_id = reservation.id where chargebill.id = (select max(id) from chargebill where reservation_id = ?)"
+                            + " order by reservation_id)");
         
         insertChargeTransactionHistoryPreparedStatement.setInt(1, this.reservationID);
         

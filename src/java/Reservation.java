@@ -152,8 +152,8 @@ public class Reservation implements Serializable {
         
         preparedStatement.setString(1, Util.getUserName());
         preparedStatement.setInt(2, (new Room()).getNextRoomNumber(view, type));
-        preparedStatement.setDate(3, new java.sql.Date(startDate.getTime()));
-        preparedStatement.setDate(4, new java.sql.Date(endDate.getTime()));
+        preparedStatement.setDate(3, new java.sql.Date(this.startDate.getTime()));
+        preparedStatement.setDate(4, new java.sql.Date(this.endDate.getTime()));
         
         preparedStatement.executeUpdate();
         
@@ -342,9 +342,9 @@ public class Reservation implements Serializable {
         PreparedStatement insertRoomTransactionHistoryPreparedStatement
                 = con.prepareStatement(
                         "insert into roomtransactionhistory(reservation_id, customer_id, room_number, view, type, day, amount) "
-                            + "select max(reservation_id), customer_id, reservation.room_number, view, type, day, amount from roombill join reservation "
+                            + "(select reservation_id, customer_id, reservation.room_number, view, type, day, amount from roombill join reservation "
                             + "on roombill.reservation_id = reservation.id join room on room.room_number = reservation.room_number"
-                            + " where reservation_id = ? order by reservation_id");
+                            + " where reservation_id = (select max(id) from reservation where customer_id = ?) order by reservation_id)");
         
         insertRoomTransactionHistoryPreparedStatement.setInt(1, (new Customer()).getCustomerID(Util.getUserName()));
         

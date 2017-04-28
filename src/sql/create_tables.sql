@@ -223,4 +223,4 @@ CREATE TABLE chargetransactionhistory (
   chargetype     varchar(100) NOT NULL,
   day            date NOT NULL,
   amount         float NOT NULL
-)
+);
