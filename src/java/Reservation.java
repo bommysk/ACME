@@ -179,13 +179,6 @@ public class Reservation implements Serializable {
             result.next();
             
             roomNum = result.getInt("room_num");
-            
-            System.out.println(
-            "select min(room.room_number) room_num from room join "
-              + "reservation on room.room_number = reservation.room_number where view = ? and type = ? "
-              + "and ((" + new java.sql.Date(this.startDate.getTime()) + " >= start_date and "
-                    + new java.sql.Date(this.startDate.getTime()) + " <= end_date) or "
-                    + "(" + new java.sql.Date(this.endDate.getTime()) + " >= start_date and " + new java.sql.Date(this.endDate.getTime()) + " <= end_date))");
 
             result.close();
             con.close();
@@ -201,15 +194,10 @@ public class Reservation implements Serializable {
             result.next();
         
             roomNum = result.getInt("room_number");
-            
-            System.out.println("select min(room.room_number) room_number from room left join "
-                + "reservation on room.room_number = reservation.room_number where reservation.room_number is null and view = " + view + " and type = " + type);
         }
                 
         result.close();
         con.close();
-        
-        System.out.println("ROOM NUM: " + roomNum);
         
         return roomNum;
     }

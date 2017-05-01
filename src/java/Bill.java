@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.annotation.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -30,14 +31,18 @@ public class Bill implements Serializable {
     private Date billDate = new Date();
     private Integer roomNumber;
     private Float amount;
-    private Float totalAmountTax = new Float(0.0);
+    private Float totalAmountTax;
     private Float totalRoomAmount;
-    private Float totalAmount;
+    private Float totalBillAmount;
     private List<Bill> roomBill;
+    private Float totalChargeAmountTax;
+    private Float totalChargeAmount;
+    private Float totalChargeBillAmount;
     private List<Bill> chargeBill;
     private List<Bill> specificReservationRoomBill;
     private List<Bill> specificReservationChargeBill;
     private Room room;
+    DecimalFormat df = new DecimalFormat();
     
     public DBConnect getDbConnect() {
         return dbConnect;
@@ -99,12 +104,12 @@ public class Bill implements Serializable {
         this.totalRoomAmount = totalRoomAmount;
     }
 
-    public Float getTotalAmount() {
-        return totalAmount;
+    public Float getTotalBillAmount() {
+        return totalBillAmount;
     }
 
-    public void setTotalAmount(Float totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalBillAmount(Float totalBillAmount) {
+        this.totalBillAmount = totalBillAmount;
     }
 
     public void setAmount(Float amount) {
@@ -117,6 +122,30 @@ public class Bill implements Serializable {
 
     public void setRoomBill(List<Bill> roomBill) {
         this.roomBill = roomBill;
+    }
+
+    public Float getTotalChargeAmountTax() {
+        return totalChargeAmountTax;
+    }
+
+    public void setTotalChargeAmountTax(Float totalChargeAmountTax) {
+        this.totalChargeAmountTax = totalChargeAmountTax;
+    }
+
+    public Float getTotalChargeAmount() {
+        return totalChargeAmount;
+    }
+
+    public void setTotalChargeRoomAmount(Float totalChargeRoomAmount) {
+        this.totalChargeAmount = totalChargeRoomAmount;
+    }
+
+    public Float getTotalChargeBillAmount() {
+        return totalChargeBillAmount;
+    }
+
+    public void setTotalChargeBillAmount(Float totalChargeBillAmount) {
+        this.totalChargeBillAmount = totalChargeBillAmount;
     }
 
     public List<Bill> getChargeBill() {
@@ -149,6 +178,14 @@ public class Bill implements Serializable {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public DecimalFormat getDf() {
+        return df;
+    }
+
+    public void setDf(DecimalFormat df) {
+        this.df = df;
     }
     
     public String addToChargeBill() throws SQLException {
@@ -309,7 +346,7 @@ public class Bill implements Serializable {
         }
         
         this.totalAmountTax = new Float(this.totalRoomAmount * .085);
-        this.totalAmount = this.totalRoomAmount + this.totalAmountTax;
+        this.totalBillAmount = this.totalRoomAmount + this.totalAmountTax;
         
         return roomBill;
     }
@@ -322,15 +359,17 @@ public class Bill implements Serializable {
             throw new SQLException("Can't get database connection");
         } 
         
-       PreparedStatement preparedStatement = con.prepareStatement(
-                    "select reservation_id, chargetype, day, amount from chargebill join reservation "
-                            + "on chargebill.reservation_id = reservation.id where reservation_id = ?"
-                            + " order by reservation_id");
-       
-       preparedStatement.setInt(1, reservationID);
+        PreparedStatement preparedStatement = con.prepareStatement(
+                     "select reservation_id, chargetype, day, amount from chargebill join reservation "
+                             + "on chargebill.reservation_id = reservation.id where reservation_id = ?"
+                             + " order by reservation_id");
+
+        preparedStatement.setInt(1, reservationID);
 
         //get customer data from database
         ResultSet result = preparedStatement.executeQuery();
+        
+        this.totalChargeAmount = new Float(0.0);
         
         while (result.next()) {
             Bill bill = new Bill();
@@ -341,7 +380,12 @@ public class Bill implements Serializable {
             bill.setBillDate(result.getDate("day"));
             
             chargeBill.add(bill);
+            
+            this.totalChargeAmount += result.getFloat("amount");
         }
+        
+        this.totalChargeAmountTax = new Float(this.totalChargeAmount * .085);
+        this.totalChargeBillAmount = this.totalChargeAmount + this.totalChargeAmountTax;
         
         return chargeBill;
     }

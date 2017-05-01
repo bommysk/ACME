@@ -335,7 +335,7 @@ public class Customer implements Serializable {
         PreparedStatement preparedStatement
                 = con.prepareStatement(
                         "select login, first_name, last_name, email, postal_address, room_number, checkin_date from "
-                                + "reservation join checkin on checkin.id = reservation.id join "
+                                + "reservation join checkin on checkin.reservation_id = reservation.id join "
                                 + "customer on customer.id = reservation.customer_id order by checkin_date");
         
         //get customer data from database
