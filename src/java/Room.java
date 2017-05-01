@@ -237,33 +237,6 @@ public class Room implements Serializable {
         
         this.selectedRoom = new Room();
     }
-     
-    public Integer getNextRoomNumber(String view, String type) throws SQLException {
-        Connection con = dbConnect.getConnection();
-        Integer roomNum;
-
-        if (con == null) {
-            throw new SQLException("Can't get database connection");
-        }
-        
-        con.setAutoCommit(false);
-
-        PreparedStatement preparedStatement = con.prepareStatement("select min(room.room_number) room_number from room left join "
-                + "reservation on room.room_number = reservation.room_number where reservation.room_number is null and view = ? and type = ?");
-        preparedStatement.setString(1, view);
-        preparedStatement.setString(2, type);
-        
-        ResultSet result = preparedStatement.executeQuery();
-
-        result.next();
-        
-        roomNum = result.getInt("room_number");
-                
-        result.close();
-        con.close();
-        
-        return roomNum;
-    }
     
     public Room findRoom(Integer roomNumber) throws RoomNotFound {
         for (Room room : this.roomList) {

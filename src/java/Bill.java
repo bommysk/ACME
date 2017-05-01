@@ -30,6 +30,9 @@ public class Bill implements Serializable {
     private Date billDate = new Date();
     private Integer roomNumber;
     private Float amount;
+    private Float totalAmountTax = new Float(0.0);
+    private Float totalRoomAmount;
+    private Float totalAmount;
     private List<Bill> roomBill;
     private List<Bill> chargeBill;
     private List<Bill> specificReservationRoomBill;
@@ -78,6 +81,30 @@ public class Bill implements Serializable {
 
     public Float getAmount() {
         return amount;
+    }
+
+    public Float getTotalAmountTax() {
+        return totalAmountTax;
+    }
+
+    public void setTotalAmountTax(Float totalAmountTax) {
+        this.totalAmountTax = totalAmountTax;
+    }
+
+    public Float getTotalRoomAmount() {
+        return totalRoomAmount;
+    }
+
+    public void setTotalRoomAmount(Float totalRoomAmount) {
+        this.totalRoomAmount = totalRoomAmount;
+    }
+
+    public Float getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Float totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public void setAmount(Float amount) {
@@ -262,6 +289,8 @@ public class Bill implements Serializable {
         //get customer data from database
         ResultSet result = preparedStatement.executeQuery();
         
+        this.totalRoomAmount = new Float(0.0);
+        
         while (result.next()) {
             Bill bill = new Bill();
             
@@ -275,7 +304,12 @@ public class Bill implements Serializable {
             bill.setAmount(result.getFloat("amount"));
             
             roomBill.add(bill);
+            
+            this.totalRoomAmount += result.getFloat("amount");
         }
+        
+        this.totalAmountTax = new Float(this.totalRoomAmount * .085);
+        this.totalAmount = this.totalRoomAmount + this.totalAmountTax;
         
         return roomBill;
     }

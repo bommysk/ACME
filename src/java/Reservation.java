@@ -139,6 +139,81 @@ public class Reservation implements Serializable {
         this.customerID = customerID;
     }
     
+    public Integer getNextRoomNumber(String view, String type) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        Integer roomNum;
+        int count;
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+
+        PreparedStatement preparedStatement = con.prepareStatement("select count(*) count from room left join "
+                + "reservation on room.room_number = reservation.room_number where reservation.room_number is null and view = ? and type = ?");
+        preparedStatement.setString(1, this.view);
+        preparedStatement.setString(2, this.type);
+        
+        ResultSet result = preparedStatement.executeQuery();
+
+        result.next();
+        
+        count = result.getInt("count");
+        
+        // no free room available, so we need to do a deeper check with the dates
+        if (count == 0) {
+            preparedStatement = con.prepareStatement("select min(room.room_number) room_num from room join "
+              + "reservation on room.room_number = reservation.room_number where view = ? and type = ? "
+              + "and NOT ((? >= start_date and ? <= end_date) or (? >= start_date and ? <= end_date))");
+      
+            preparedStatement.setString(1, view);
+            preparedStatement.setString(2, type);
+            preparedStatement.setDate(3, new java.sql.Date(this.startDate.getTime()));
+            preparedStatement.setDate(4, new java.sql.Date(this.startDate.getTime()));
+            preparedStatement.setDate(5, new java.sql.Date(this.endDate.getTime()));
+            preparedStatement.setDate(6, new java.sql.Date(this.endDate.getTime()));
+
+            result = preparedStatement.executeQuery();
+
+            result.next();
+            
+            roomNum = result.getInt("room_num");
+            
+            System.out.println(
+            "select min(room.room_number) room_num from room join "
+              + "reservation on room.room_number = reservation.room_number where view = ? and type = ? "
+              + "and ((" + new java.sql.Date(this.startDate.getTime()) + " >= start_date and "
+                    + new java.sql.Date(this.startDate.getTime()) + " <= end_date) or "
+                    + "(" + new java.sql.Date(this.endDate.getTime()) + " >= start_date and " + new java.sql.Date(this.endDate.getTime()) + " <= end_date))");
+
+            result.close();
+            con.close();
+        }
+        else {
+            preparedStatement = con.prepareStatement("select min(room.room_number) room_number from room left join "
+                + "reservation on room.room_number = reservation.room_number where reservation.room_number is null and view = ? and type = ?");
+            preparedStatement.setString(1, view);
+            preparedStatement.setString(2, type);
+
+            result = preparedStatement.executeQuery();
+
+            result.next();
+        
+            roomNum = result.getInt("room_number");
+            
+            System.out.println("select min(room.room_number) room_number from room left join "
+                + "reservation on room.room_number = reservation.room_number where reservation.room_number is null and view = " + view + " and type = " + type);
+        }
+                
+        result.close();
+        con.close();
+        
+        System.out.println("ROOM NUM: " + roomNum);
+        
+        return roomNum;
+    }
+    
     public String createReservation() throws SQLException {
         Connection con = dbConnect.getConnection();
 
@@ -152,7 +227,7 @@ public class Reservation implements Serializable {
                 + "values((select id from customer where login = ?),?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
         
         preparedStatement.setString(1, Util.getUserName());
-        preparedStatement.setInt(2, (new Room()).getNextRoomNumber(view, type));
+        preparedStatement.setInt(2, getNextRoomNumber(view, type));
         preparedStatement.setDate(3, new java.sql.Date(this.startDate.getTime()));
         preparedStatement.setDate(4, new java.sql.Date(this.endDate.getTime()));
         
