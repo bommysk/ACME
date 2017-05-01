@@ -117,8 +117,6 @@ public class Room implements Serializable {
         this.startDateUI = startDateUI;
     }
     
-    
-    
     public ArrayList<Integer> getAllRoomNumbers() {
         return allRoomNumbers;
     }
@@ -284,12 +282,8 @@ public class Room implements Serializable {
     public void validateDate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException {
         
-        Date submittedEndDate = (Date) value;
         Date submittedStartDate = (Date) startDateUI.getLocalValue(); 
-        
-        System.out.println("DATES");
-        System.out.println(submittedStartDate);
-        System.out.println(submittedEndDate); 
+        Date submittedEndDate = (Date) value;
         
         if (submittedStartDate.after(submittedEndDate)) {            
             FacesMessage errorMessage = new FacesMessage("The start date cannot be greater than the end date.");

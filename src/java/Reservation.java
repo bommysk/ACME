@@ -11,6 +11,7 @@ import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
@@ -286,9 +287,7 @@ public class Reservation implements Serializable {
                         "insert into roombill(reservation_id, day, amount) values(?, ?, ?)");
                                 
         
-        System.out.println("LOGIN: " + Util.getUserName());
         preparedStatement.setString(1, Util.getUserName());
-        System.out.println("reservation id: " + reservationId);
         preparedStatement.setInt(2, reservationId);
         
         //get customer data from database

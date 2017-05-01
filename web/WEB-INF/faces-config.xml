@@ -53,6 +53,11 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>  
     <managed-bean>
+        <managed-bean-name>reservationvalidation</managed-bean-name>
+        <managed-bean-class>ReservationValidation</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>  
+    <managed-bean>
         <managed-bean-name>bill</managed-bean-name>
         <managed-bean-class>Bill</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>

@@ -38,7 +38,9 @@
                                 <label style="margin-right:5px">View:</label>
                                 <h:selectOneMenu value="#{reservation.view}"
                                                  required="true"
-                                                 requiredMessage="You must enter the view you would like."> 
+                                                 requiredMessage="You must enter the view you would like."
+                                                 binding="#{reservationvalidation.viewUI}"
+                                                 id="view"> 
                                     <f:selectItem itemValue="pool" itemLabel="pool" /> 
                                     <f:selectItem itemValue="ocean" itemLabel="ocean" />    
                                 </h:selectOneMenu>  
@@ -48,7 +50,9 @@
                                 <label style="margin-right:5px">Type:</label>
                                 <h:selectOneMenu value="#{reservation.type}"
                                                  required="true"
-                                                 requiredMessage="You must enter the type you would like."> 
+                                                 requiredMessage="You must enter the type you would like."
+                                                 binding="#{reservationvalidation.typeUI}"
+                                                 id="type"> 
                                     <f:selectItem itemValue="single king" itemLabel="single king" /> 
                                     <f:selectItem itemValue="double queen" itemLabel="double queen" />    
                                 </h:selectOneMenu>  
@@ -58,6 +62,7 @@
                                 <label style="margin-right:5px">Start Date:</label>
                                 <h:inputText class="datepicker" value="#{reservation.startDate}"
                                     required="true"
+                                    binding="#{reservationvalidation.startDateUI}"
                                     requiredMessage="Start Date Required."
                                     converterMessage="Illegal date (should be MM/dd/yyyy)"
                                     id="startDate"
@@ -71,11 +76,13 @@
                                 <h:inputText class="datepicker" value="#{reservation.endDate}"
                                     required="true"
                                     requiredMessage="End Date Required."
+                                    validator="#{reservationvalidation.validateReservation}"
                                     converterMessage="Illegal date (should be MM/dd/yyyy)"
                                     id="endDate"
                                     a:placeholder="End Date">
                                    <f:convertDateTime pattern="MM/dd/yyyy"/>
                                 </h:inputText>
+                                 <h:message for="endDate" style="color:red;margin:8px;"/>
                             </div>
 
                             <h:commandButton value="Reserve" class="btn btn-primary" action="#{reservation.createReservation}"/>
@@ -88,6 +95,7 @@
         </div>
         
         <script type="text/javascript">
+            
             var dateToday = new Date();
             //For calendar
             $(".datepicker").datepicker({
