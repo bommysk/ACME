@@ -35,7 +35,6 @@
                             <label>Reservation ID:</label> <h:inputText value="#{reservation.reservationID}" required="true"
                                                         requiredMessage="Your must enter the reservation id."
                                                         id="login"
-                                                        validatorMessage="This reservation cannot be cancelled, it doesn't exist or it has already started."
                                                         validator="#{reservation.validateReservationCancellation}"
                                                         class="form-control"
                                                         a:placeholder="Reservation ID" />

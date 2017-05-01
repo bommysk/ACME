@@ -470,13 +470,27 @@ public class Reservation implements Serializable {
         
         count = result.getInt("count");
         
-        result.close();
-        con.close();
-        
         if (count > 0) {
+            FacesMessage errorMessage = new FacesMessage("This reservation cannot be cancelled, it has already started.");
+            throw new ValidatorException(errorMessage);
+        }
+        
+        preparedStatement = con.prepareStatement("select count(*) as count from reservation where id = ?");
+        preparedStatement.setInt(1, submittedReservationID);
+        
+        result = preparedStatement.executeQuery();
+
+        result.next();
+        
+        count = result.getInt("count");
+        
+        if (count == 0) {
             FacesMessage errorMessage = new FacesMessage("This reservation id does not exist.");
             throw new ValidatorException(errorMessage);
         }
+        
+        result.close();
+        con.close();
     }
     
     public String deleteReservation() throws SQLException {
