@@ -398,4 +398,28 @@ public class Employee implements Serializable {
         result.close();
         con.close();
     }
+    
+    public boolean isAdmin() throws SQLException {
+        Connection con = dbConnect.getConnection();
+        int count;
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        con.setAutoCommit(false);
+
+        PreparedStatement preparedStatement = con.prepareStatement("select count(*) as count from employee where login = ? and is_admin = 1");
+        preparedStatement.setString(1, EmployeeUtil.getEmployeeLogin().trim());
+        
+        ResultSet result = preparedStatement.executeQuery();
+        
+        result.next();
+        
+        count = result.getInt("count");
+        
+        System.out.println(count + " Lets gooo");
+        
+        return count != 0;
+    }
 }
